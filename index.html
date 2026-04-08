@@ -1,0 +1,1727 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CAPACITR — Technical Specification</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+    :root {
+      --orange: #FA5302;
+      --orange-dim: rgba(250, 83, 2, 0.12);
+      --orange-mid: rgba(250, 83, 2, 0.25);
+      --green: #0F5331;
+      --green-dim: rgba(15, 83, 49, 0.3);
+      --green-bright: #00e676;
+      --board-dark: #021822;
+      --card: #0a1f2c;
+      --card-border: #1a3040;
+      --card-hover: #0f2a3a;
+      --tan: #D9D0C0;
+      --tan-dim: rgba(217, 208, 192, 0.15);
+      --tan-muted: rgba(217, 208, 192, 0.5);
+      --yellow-green: #CBFF02;
+      --yellow-green-dim: rgba(203, 255, 2, 0.1);
+      --signal-blue: #F1F9FF;
+      --signal-blue-dim: rgba(241, 249, 255, 0.06);
+      --muted: #6B7280;
+      --border: #1a3040;
+      --border-accent: #2a4050;
+      --red: #ff5252;
+      --red-dim: rgba(255, 82, 82, 0.12);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--board-dark);
+      color: var(--tan);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ===== SIDEBAR ===== */
+    .sidebar {
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: 260px;
+      height: 100vh;
+      background: #010f18;
+      border-right: 1px solid var(--border);
+      overflow-y: auto;
+      z-index: 100;
+      padding: 0;
+    }
+
+    .sidebar-logo {
+      padding: 24px 20px 20px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .sidebar-logo h1 {
+      font-family: 'Space Grotesk', Arial, sans-serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--orange);
+      letter-spacing: 4px;
+      text-transform: uppercase;
+    }
+
+    .sidebar-logo p {
+      font-family: 'Space Grotesk', Arial, sans-serif;
+      font-size: 9px;
+      color: var(--muted);
+      margin-top: 6px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    .nav-section {
+      padding: 16px 20px 6px;
+      font-family: 'Space Grotesk', Arial, sans-serif;
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--orange);
+      font-weight: 600;
+    }
+
+    .nav-link {
+      display: block;
+      padding: 7px 20px;
+      color: var(--muted);
+      text-decoration: none;
+      font-family: 'Space Grotesk', Arial, sans-serif;
+      font-size: 12px;
+      font-weight: 500;
+      transition: all 0.15s ease-out;
+      border-left: 2px solid transparent;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .nav-link:hover {
+      color: var(--tan);
+      background: var(--orange-dim);
+      border-left-color: var(--orange);
+    }
+
+    .nav-link.active {
+      color: var(--orange);
+      background: var(--orange-dim);
+      border-left-color: var(--orange);
+      font-weight: 600;
+    }
+
+    /* ===== MAIN ===== */
+    .main {
+      margin-left: 260px;
+      max-width: 920px;
+      padding: 48px 56px 120px;
+    }
+
+    /* ===== HERO ===== */
+    .hero {
+      margin-bottom: 64px;
+      padding-bottom: 48px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .hero-badge {
+      display: inline-block;
+      padding: 4px 12px;
+      background: transparent;
+      border: 1px solid var(--orange);
+      border-radius: 2px;
+      font-family: 'Space Grotesk', Arial, sans-serif;
+      font-size: 9px;
+      font-weight: 600;
+      color: var(--orange);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 24px;
+    }
+
+    .hero h1 {
+      font-family: 'Space Grotesk', Arial, sans-serif;
+      font-size: 40px;
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -0.5px;
+      color: white;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    .hero h1 span {
+      color: var(--orange);
+    }
+
+    .hero p {
+      font-size: 16px;
+      color: var(--tan-muted);
+      line-height: 1.7;
+      max-width: 620px;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 32px;
+      margin-top: 32px;
+    }
+
+    .hero-stat {
+      text-align: center;
+    }
+
+    .hero-stat-value {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 28px;
+      font-weight: 600;
+      color: var(--orange);
+    }
+
+    .hero-stat-label {
+      font-family: 'Space Grotesk', Arial, sans-serif;
+      font-size: 9px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-top: 4px;
+    }
+
+    /* ===== SECTIONS ===== */
+    .section {
+      margin-bottom: 64px;
+      scroll-margin-top: 32px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+
+    .section-number {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      background: transparent;
+      border: 2px solid var(--orange);
+      border-radius: 2px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--orange);
+      flex-shrink: 0;
+    }
+
+    .section h2 {
+      font-family: 'Space Grotesk', Arial, sans-serif;
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: white;
+    }
+
+    .section h3 {
+      font-family: 'Space Grotesk', Arial, sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      margin-top: 32px;
+      margin-bottom: 12px;
+      color: var(--orange);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .section h4 {
+      font-family: 'Space Grotesk', Arial, sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      margin-top: 24px;
+      margin-bottom: 8px;
+      color: var(--yellow-green);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+    }
+
+    .section p {
+      color: var(--tan-muted);
+      margin-bottom: 12px;
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    /* ===== CARDS ===== */
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      padding: 24px;
+      margin-bottom: 16px;
+      transition: border-color 0.15s ease-out;
+    }
+
+    .card:hover {
+      border-color: var(--border-accent);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .card-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      flex-shrink: 0;
+      border: 1px solid var(--border);
+    }
+
+    .card-title {
+      font-family: 'Space Grotesk', Arial, sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: white;
+    }
+
+    .card-subtitle {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .card p {
+      font-size: 13px;
+      color: var(--tan-muted);
+      line-height: 1.6;
+    }
+
+    /* ===== GRID ===== */
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+
+    /* ===== TAGS ===== */
+    .tag {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 2px;
+      font-family: 'Space Grotesk', Arial, sans-serif;
+      font-size: 9px;
+      font-weight: 600;
+      margin: 2px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .tag-orange { background: var(--orange-dim); color: var(--orange); border: 1px solid var(--orange-mid); }
+    .tag-green { background: var(--green-dim); color: var(--green-bright); border: 1px solid rgba(0,230,118,0.2); }
+    .tag-tan { background: var(--tan-dim); color: var(--tan); border: 1px solid rgba(217,208,192,0.2); }
+    .tag-red { background: var(--red-dim); color: var(--red); border: 1px solid rgba(255,82,82,0.2); }
+    .tag-yellow { background: var(--yellow-green-dim); color: var(--yellow-green); border: 1px solid rgba(203,255,2,0.2); }
+    .tag-blue { background: var(--signal-blue-dim); color: var(--signal-blue); border: 1px solid rgba(241,249,255,0.15); }
+
+    /* ===== TABLES ===== */
+    .table-wrap {
+      overflow-x: auto;
+      margin: 16px 0;
+      border-radius: 3px;
+      border: 1px solid var(--border);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    thead {
+      background: #010f18;
+    }
+
+    th {
+      text-align: left;
+      padding: 10px 14px;
+      font-family: 'Space Grotesk', Arial, sans-serif;
+      font-weight: 600;
+      color: var(--orange);
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    td {
+      padding: 9px 14px;
+      border-bottom: 1px solid var(--border);
+      color: var(--tan-muted);
+      font-size: 13px;
+    }
+
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: var(--orange-dim); }
+
+    td code {
+      background: var(--orange-dim);
+      color: var(--orange);
+      padding: 2px 6px;
+      border-radius: 2px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+    }
+
+    /* ===== CODE BLOCKS ===== */
+    .code-block {
+      background: #010f18;
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      padding: 20px;
+      margin: 16px 0;
+      overflow-x: auto;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      line-height: 1.8;
+      color: var(--tan-muted);
+    }
+
+    .code-block .keyword { color: var(--orange); }
+    .code-block .string { color: var(--green-bright); }
+    .code-block .comment { color: var(--muted); font-style: italic; }
+    .code-block .type { color: var(--yellow-green); }
+    .code-block .number { color: var(--orange); }
+
+    /* ===== ARCHITECTURE DIAGRAM ===== */
+    .arch-diagram {
+      background: #010f18;
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      padding: 32px;
+      margin: 24px 0;
+      text-align: center;
+    }
+
+    .arch-row {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 8px;
+      flex-wrap: wrap;
+    }
+
+    .arch-box {
+      padding: 10px 16px;
+      border-radius: 2px;
+      font-family: 'Space Grotesk', Arial, sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      min-width: 110px;
+      text-align: center;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .arch-box small {
+      display: block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9px;
+      font-weight: 400;
+      text-transform: none;
+      letter-spacing: 0;
+      margin-top: 4px;
+      opacity: 0.7;
+    }
+
+    .arch-client { background: transparent; border: 1px solid var(--orange); color: var(--orange); }
+    .arch-api { background: transparent; border: 1px solid var(--green-bright); color: var(--green-bright); }
+    .arch-service { background: transparent; border: 1px solid var(--tan); color: var(--tan); }
+    .arch-external { background: transparent; border: 1px solid var(--yellow-green); color: var(--yellow-green); }
+    .arch-data { background: transparent; border: 1px solid var(--orange); color: var(--orange); }
+
+    .arch-arrow {
+      color: var(--muted);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 16px;
+      margin: 6px 0;
+    }
+
+    /* ===== FLOW DIAGRAM ===== */
+    .flow {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      margin: 24px 0;
+    }
+
+    .flow-step {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+    }
+
+    .flow-line {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 32px;
+      flex-shrink: 0;
+    }
+
+    .flow-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 2px;
+      background: var(--orange);
+      flex-shrink: 0;
+      margin-top: 5px;
+    }
+
+    .flow-connector {
+      width: 1px;
+      height: 36px;
+      background: var(--border-accent);
+    }
+
+    .flow-content {
+      padding-bottom: 20px;
+    }
+
+    .flow-content strong {
+      font-family: 'Space Grotesk', Arial, sans-serif;
+      font-size: 13px;
+      color: white;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .flow-content p {
+      font-size: 12px;
+      color: var(--tan-muted);
+      margin-top: 4px;
+    }
+
+    /* ===== PIPELINE ===== */
+    .pipeline {
+      display: flex;
+      gap: 0;
+      margin: 24px 0;
+      overflow-x: auto;
+      padding-bottom: 8px;
+    }
+
+    .pipeline-stage {
+      flex: 1;
+      min-width: 130px;
+      position: relative;
+    }
+
+    .pipeline-box {
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      padding: 16px 12px;
+      text-align: center;
+      margin-right: 28px;
+    }
+
+    .pipeline-box .emoji { font-size: 22px; margin-bottom: 8px; }
+    .pipeline-box .label {
+      font-family: 'Space Grotesk', Arial, sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      color: white;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .pipeline-box .desc {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9px;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    .pipeline-stage:not(:last-child)::after {
+      content: '→';
+      position: absolute;
+      right: 6px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--orange);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 16px;
+    }
+
+    /* ===== COST BARS ===== */
+    .cost-bar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 8px 0;
+    }
+
+    .cost-label {
+      width: 130px;
+      font-family: 'Space Grotesk', Arial, sans-serif;
+      font-size: 11px;
+      color: var(--tan-muted);
+      flex-shrink: 0;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .cost-track {
+      flex: 1;
+      height: 6px;
+      background: var(--border);
+      border-radius: 1px;
+      overflow: hidden;
+    }
+
+    .cost-fill {
+      height: 100%;
+      border-radius: 1px;
+    }
+
+    .cost-value {
+      width: 70px;
+      text-align: right;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    /* ===== TIMELINE ===== */
+    .timeline {
+      position: relative;
+      padding-left: 32px;
+      margin: 24px 0;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 10px;
+      top: 0;
+      bottom: 0;
+      width: 1px;
+      background: var(--border-accent);
+    }
+
+    .timeline-item {
+      position: relative;
+      margin-bottom: 32px;
+    }
+
+    .timeline-dot {
+      position: absolute;
+      left: -27px;
+      top: 3px;
+      width: 12px;
+      height: 12px;
+      border-radius: 2px;
+      border: 2px solid var(--orange);
+      background: var(--board-dark);
+    }
+
+    .timeline-item.active .timeline-dot {
+      background: var(--orange);
+      box-shadow: 0 0 10px rgba(250, 83, 2, 0.4);
+    }
+
+    .timeline-phase {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 4px;
+    }
+
+    .timeline-title {
+      font-family: 'Space Grotesk', Arial, sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: white;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .timeline-desc {
+      font-size: 13px;
+      color: var(--tan-muted);
+    }
+
+    /* ===== HAZARD STRIPE (brand element) ===== */
+    .hazard-stripe {
+      height: 4px;
+      background: repeating-linear-gradient(
+        45deg,
+        var(--orange),
+        var(--orange) 8px,
+        transparent 8px,
+        transparent 16px
+      );
+      opacity: 0.4;
+      margin: 48px 0;
+    }
+
+    /* ===== BRACKET PLUS ===== */
+    .bracket-plus {
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--orange);
+      font-weight: 600;
+    }
+
+    /* ===== SCROLLBAR ===== */
+    ::-webkit-scrollbar { width: 4px; height: 4px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--border-accent); border-radius: 2px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--muted); }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 900px) {
+      .sidebar { display: none; }
+      .main { margin-left: 0; padding: 24px; }
+      .grid-2, .grid-3 { grid-template-columns: 1fr; }
+      .hero h1 { font-size: 28px; }
+    }
+
+    /* ===== LIVE INDICATOR ===== */
+    .live-dot {
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--yellow-green);
+      margin-right: 6px;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Sidebar -->
+<nav class="sidebar">
+  <div class="sidebar-logo">
+    <h1>CAPACITR</h1>
+    <p>Technical Specification // V1.0</p>
+  </div>
+
+  <div class="nav-section">Overview</div>
+  <a class="nav-link active" href="#hero">System Overview</a>
+  <a class="nav-link" href="#architecture">Architecture</a>
+
+  <div class="nav-section">Data Sources</div>
+  <a class="nav-link" href="#polymarket">Polymarket</a>
+  <a class="nav-link" href="#hyperliquid">HyperLiquid</a>
+  <a class="nav-link" href="#twitter">X / Twitter</a>
+  <a class="nav-link" href="#news">News & Scraping</a>
+  <a class="nav-link" href="#trends">Trend Sources</a>
+  <a class="nav-link" href="#privy">Privy Auth</a>
+
+  <div class="nav-section">Backend</div>
+  <a class="nav-link" href="#database">Database Schema</a>
+  <a class="nav-link" href="#endpoints">API Endpoints</a>
+  <a class="nav-link" href="#jobs">Background Jobs</a>
+
+  <div class="nav-section">Intelligence</div>
+  <a class="nav-link" href="#llm">LLM Strategy</a>
+  <a class="nav-link" href="#matching">Matching Algorithm</a>
+
+  <div class="nav-section">Deployment</div>
+  <a class="nav-link" href="#phases">Implementation Phases</a>
+  <a class="nav-link" href="#costs">Cost Projections</a>
+  <a class="nav-link" href="#tradeoffs">Key Tradeoffs</a>
+  <a class="nav-link" href="#example">End-to-End Example</a>
+</nav>
+
+<!-- Main -->
+<div class="main">
+
+  <!-- HERO -->
+  <section class="hero" id="hero">
+    <div class="hero-badge">SPEC // V1.0 // SYSTEM INITIALIZED</div>
+    <h1>Trend-to-Trade <span>Signal Feed</span></h1>
+    <p>Absorb signals from across the internet — trends, news, social chatter — charge them with intelligence, and discharge matched predictions and trades when you need them.</p>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="hero-stat-value">07</div>
+        <div class="hero-stat-label">Data Sources</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-value">02</div>
+        <div class="hero-stat-label">Market Types</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-value">05</div>
+        <div class="hero-stat-label">Background Jobs</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-value">10</div>
+        <div class="hero-stat-label">Weeks to V1</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRODUCT SCOPE -->
+  <section class="section" id="scope">
+    <div class="section-header">
+      <div class="section-number">01</div>
+      <h2>Product Scope</h2>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon" style="background: var(--orange-dim);">⚡</div>
+          <div>
+            <div class="card-title">Phase 01 — Link Drop MVP</div>
+            <div class="card-subtitle">PROTOTYPE // WEEK 01-02</div>
+          </div>
+        </div>
+        <p>Enter the terminal. Paste a link to an X post or news article. System scrapes content, analyzes with LLM, returns matched Polymarket predictions + HyperLiquid perps. No auth required.</p>
+        <div style="margin-top: 12px;">
+          <span class="tag tag-orange">Web Only</span>
+          <span class="tag tag-orange">No Auth</span>
+          <span class="tag tag-orange">Single API Call</span>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon" style="background: var(--orange-dim);">🔋</div>
+          <div>
+            <div class="card-title">Phase 02-04 — Full Discharge</div>
+            <div class="card-subtitle">PRODUCTION // WEEK 03-10</div>
+          </div>
+        </div>
+        <p>React Native app. Privy auth with social login. Calibrate the terminal to show markets that matter to you. Auto-generated trending feed with market overlays. Social data enrichment from X and Farcaster.</p>
+        <div style="margin-top: 12px;">
+          <span class="tag tag-yellow">React Native</span>
+          <span class="tag tag-yellow">Privy Auth</span>
+          <span class="tag tag-yellow">Personalized Feed</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="hazard-stripe"></div>
+
+  <!-- ARCHITECTURE -->
+  <section class="section" id="architecture">
+    <div class="section-header">
+      <div class="section-number">02</div>
+      <h2>System Architecture</h2>
+    </div>
+
+    <div class="arch-diagram">
+      <div class="arch-row">
+        <div class="arch-box arch-client">📱 Client Layer<small>React Native (Expo) + Privy SDK</small></div>
+      </div>
+      <div class="arch-arrow">▼ REST / WS</div>
+      <div class="arch-row">
+        <div class="arch-box arch-api">⚡ API Gateway<small>Hono // /auth /feed /scrape /markets</small></div>
+      </div>
+      <div class="arch-arrow">▼</div>
+      <div class="arch-row">
+        <div class="arch-box arch-service">🔐 Auth<small>Privy</small></div>
+        <div class="arch-box arch-service">📡 Poller<small>BullMQ</small></div>
+        <div class="arch-box arch-service">🔍 Scraper<small>Jina / X API</small></div>
+        <div class="arch-box arch-service">🎯 Matcher<small>LLM + Search</small></div>
+      </div>
+      <div class="arch-arrow">▼</div>
+      <div class="arch-row">
+        <div class="arch-box arch-data">🗄️ PostgreSQL<small>Supabase</small></div>
+        <div class="arch-box arch-data">⚡ Redis<small>Upstash + BullMQ</small></div>
+        <div class="arch-box arch-data">🧠 LLM<small>OpenAI / Claude</small></div>
+      </div>
+      <div class="arch-arrow">▼</div>
+      <div class="arch-row">
+        <div class="arch-box arch-external">𝕏 Twitter</div>
+        <div class="arch-box arch-external">📰 NewsAPI</div>
+        <div class="arch-box arch-external">📊 Polymarket</div>
+        <div class="arch-box arch-external">📈 HyperLiquid</div>
+        <div class="arch-box arch-external">🔮 Farcaster</div>
+      </div>
+    </div>
+
+    <h3>Tech Stack</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Layer</th><th>Technology</th><th>Rationale</th></tr></thead>
+        <tbody>
+          <tr><td>Mobile Client</td><td><code>React Native (Expo)</code></td><td>Cross-platform, Privy RN SDK support</td></tr>
+          <tr><td>Web Client</td><td><code>Next.js</code></td><td>Prototype-first, SSR for SEO</td></tr>
+          <tr><td>API Server</td><td><code>Node.js + Hono</code></td><td>Fast, typed, edge-compatible</td></tr>
+          <tr><td>Database</td><td><code>PostgreSQL (Supabase)</code></td><td>Managed, real-time subscriptions</td></tr>
+          <tr><td>Cache / Queue</td><td><code>Redis (Upstash) + BullMQ</code></td><td>Serverless Redis, reliable job queues</td></tr>
+          <tr><td>LLM</td><td><code>GPT-4o / 4o-mini</code></td><td>Best cost/quality for classification</td></tr>
+          <tr><td>Image Gen</td><td><code>DALL-E 3 / Flux</code></td><td>Editorial illustrations for feed cards</td></tr>
+          <tr><td>Hosting</td><td><code>Vercel + Fly.io</code></td><td>Vercel for web, Fly for API workers</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- POLYMARKET -->
+  <section class="section" id="polymarket">
+    <div class="section-header">
+      <div class="section-number">03</div>
+      <h2>Polymarket API</h2>
+    </div>
+    <p><span class="live-dot"></span>Prediction market data — completely free, no auth required. Three API surfaces.</p>
+
+    <h3>Gamma API — Discovery & Search</h3>
+    <p><code>gamma-api.polymarket.com</code> · <span style="color: var(--yellow-green);">4,000 req / 10s</span></p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Endpoint</th><th>Purpose</th><th>Key Params</th></tr></thead>
+        <tbody>
+          <tr><td><code>GET /public-search?q={query}</code></td><td>Search markets by keyword</td><td>q (search string)</td></tr>
+          <tr><td><code>GET /events</code></td><td>List/filter events</td><td>limit, offset, active, closed, order, tag</td></tr>
+          <tr><td><code>GET /markets</code></td><td>List/filter markets</td><td>limit, offset, active, closed, order, slug</td></tr>
+          <tr><td><code>GET /tags</code></td><td>List category tags</td><td>none</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card" style="margin-top: 12px;">
+      <p><strong style="color: var(--orange);">⚠ DOUBLE-ENCODED FIELDS:</strong> <code>outcomePrices</code>, <code>clobTokenIds</code>, <code>outcomes</code> are JSON strings inside JSON. Parse with <code>json.loads()</code> in Python or <code>JSON.parse()</code> in JS.</p>
+    </div>
+
+    <h3>CLOB API — Real-time Prices</h3>
+    <p><code>clob.polymarket.com</code> · <span style="color: var(--yellow-green);">9,000 req / 10s</span></p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Endpoint</th><th>Purpose</th><th>Params</th></tr></thead>
+        <tbody>
+          <tr><td><code>GET /price?token_id={ID}&side=buy</code></td><td>Current price</td><td>token_id, side</td></tr>
+          <tr><td><code>GET /midpoint?token_id={ID}</code></td><td>Mid price</td><td>token_id</td></tr>
+          <tr><td><code>GET /book?token_id={ID}</code></td><td>Full orderbook</td><td>token_id</td></tr>
+          <tr><td><code>GET /prices-history?market={CID}</code></td><td>Price history</td><td>market, interval, fidelity</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Data API — Trades & Open Interest</h3>
+    <p><code>data-api.polymarket.com</code> · <span style="color: var(--yellow-green);">1,000 req / 10s</span></p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Endpoint</th><th>Purpose</th></tr></thead>
+        <tbody>
+          <tr><td><code>GET /trades?market={CID}</code></td><td>Recent trades</td></tr>
+          <tr><td><code>GET /oi?market={CID}</code></td><td>Open interest</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- HYPERLIQUID -->
+  <section class="section" id="hyperliquid">
+    <div class="section-header">
+      <div class="section-number">04</div>
+      <h2>HyperLiquid API</h2>
+    </div>
+    <p><span class="live-dot"></span>Perpetual futures data — free, no auth for reads. Single POST endpoint, <code>type</code> field determines query.</p>
+    <div class="code-block" style="margin-top: 12px; margin-bottom: 16px;">
+<span class="keyword">POST</span> <span class="string">https://api.hyperliquid.xyz/info</span>
+<span class="comment">// Content-Type: application/json</span>
+<span class="comment">// WebSocket: wss://api.hyperliquid.xyz/ws</span>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Type</th><th>Body</th><th>Returns</th></tr></thead>
+        <tbody>
+          <tr><td><code>meta</code></td><td><code>{"type":"meta"}</code></td><td>All perp assets: name, decimals, maxLeverage</td></tr>
+          <tr><td><code>metaAndAssetCtxs</code></td><td><code>{"type":"metaAndAssetCtxs"}</code></td><td>Meta + live prices, funding, OI, volume</td></tr>
+          <tr><td><code>allMids</code></td><td><code>{"type":"allMids"}</code></td><td>Current mid prices for all assets</td></tr>
+          <tr><td><code>l2Book</code></td><td><code>{"type":"l2Book","coin":"BTC"}</code></td><td>Orderbook (bids/asks)</td></tr>
+          <tr><td><code>candleSnapshot</code></td><td><code>{"type":"candleSnapshot","coin":"BTC","interval":"1h",...}</code></td><td>OHLCV candle data</td></tr>
+          <tr><td><code>fundingHistory</code></td><td><code>{"type":"fundingHistory","coin":"BTC",...}</code></td><td>Funding rate history</td></tr>
+          <tr><td><code>recentTrades</code></td><td><code>{"type":"recentTrades","coin":"BTC"}</code></td><td>Last trades for asset</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Response: metaAndAssetCtxs</h3>
+    <div class="code-block">
+<span class="comment">// Response tuple: [meta, assetContexts[]]</span>
+[
+  { <span class="string">"universe"</span>: [
+    { <span class="string">"name"</span>: <span class="string">"BTC"</span>, <span class="string">"szDecimals"</span>: <span class="number">5</span>, <span class="string">"maxLeverage"</span>: <span class="number">50</span> }
+  ]},
+  [{ <span class="string">"funding"</span>: <span class="string">"0.00003"</span>,
+     <span class="string">"openInterest"</span>: <span class="string">"1234.5"</span>,
+     <span class="string">"markPx"</span>: <span class="string">"65440"</span>,
+     <span class="string">"dayNtlVlm"</span>: <span class="string">"500000000"</span> }]
+]
+    </div>
+  </section>
+
+  <div class="hazard-stripe"></div>
+
+  <!-- TWITTER -->
+  <section class="section" id="twitter">
+    <div class="section-header">
+      <div class="section-number">05</div>
+      <h2>X / Twitter API</h2>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon" style="background: var(--orange-dim);">𝕏</div>
+          <div>
+            <div class="card-title">Official API</div>
+            <div class="card-subtitle">$100/MO BASIC</div>
+          </div>
+        </div>
+        <p>10K tweet reads/mo, search recent, single tweet fetch. Sufficient for link-drop and limited search.</p>
+        <p style="color: var(--red); margin-top: 8px; font-weight: bold; font-size: 12px;">⚠ TRENDING TOPICS = PRO TIER ($5,000/MO)</p>
+        <div style="margin-top: 8px;">
+          <span class="tag tag-orange">GET /2/tweets/search/recent</span>
+          <span class="tag tag-orange">GET /2/tweets/:id</span>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon" style="background: var(--tan-dim);">🔶</div>
+          <div>
+            <div class="card-title">Third-Party Alt</div>
+            <div class="card-subtitle">FOR PROTOTYPE</div>
+          </div>
+        </div>
+        <p><strong>SocialData.tools:</strong> $49/mo — full Twitter-like API, no rate pain.<br><strong>Apify scrapers:</strong> Pay-per-use — scraper actors for tweets and trends.</p>
+        <div style="margin-top: 8px;">
+          <span class="tag tag-tan">Bypass Trending Paywall</span>
+        </div>
+      </div>
+    </div>
+
+    <h3>Link Drop: Tweet Extraction</h3>
+    <div class="code-block">
+<span class="comment">// 01. Extract tweet ID from URL</span>
+<span class="keyword">const</span> match = url.match(<span class="string">/status\/(\d+)/</span>)
+
+<span class="comment">// 02. Fetch via X API with entity expansion</span>
+<span class="keyword">GET</span> <span class="string">/2/tweets/{tweetId}?expansions=author_id</span>
+    &tweet.fields=text,entities,context_annotations
+
+<span class="comment">// 03. context_annotations → free topic/entity tags</span>
+<span class="comment">// Use tweet text + annotations for market matching</span>
+    </div>
+  </section>
+
+  <!-- NEWS -->
+  <section class="section" id="news">
+    <div class="section-header">
+      <div class="section-number">06</div>
+      <h2>News & Article Scraping</h2>
+    </div>
+
+    <h3>News Aggregation APIs</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>API</th><th>Free Tier</th><th>Endpoint</th><th>Best For</th></tr></thead>
+        <tbody>
+          <tr><td><strong>NewsAPI.org</strong></td><td>100 req/day</td><td><code>/v2/top-headlines?category=</code></td><td>Headlines by category</td></tr>
+          <tr><td><strong>GNews.io</strong></td><td>100 req/day</td><td><code>/api/v4/top-headlines</code></td><td>Backup source</td></tr>
+          <tr><td><strong>CryptoPanic</strong></td><td>Free w/ key</td><td><code>/api/v1/posts/?filter=hot</code></td><td>Crypto + sentiment</td></tr>
+          <tr><td><strong>CoinGecko</strong></td><td>30 req/min</td><td><code>/api/v3/search/trending</code></td><td>Trending coins</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Article Content Extraction</h3>
+    <div class="grid-2">
+      <div class="card" style="border-color: var(--orange);">
+        <div class="card-header">
+          <div class="card-icon" style="background: var(--orange-dim); border-color: var(--orange);">⚡</div>
+          <div>
+            <div class="card-title">Jina Reader</div>
+            <div class="card-subtitle">RECOMMENDED // FREE</div>
+          </div>
+        </div>
+        <p><code>https://r.jina.ai/{url}</code> — returns clean markdown. Handles JS rendering, anti-bot. Zero config.</p>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon" style="background: var(--tan-dim);">🔧</div>
+          <div>
+            <div class="card-title">Firecrawl / Readability</div>
+            <div class="card-subtitle">PRODUCTION ALT</div>
+          </div>
+        </div>
+        <p>Self-host Mozilla Readability for speed. Firecrawl API (generous free tier) for complex pages.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRENDS -->
+  <section class="section" id="trends">
+    <div class="section-header">
+      <div class="section-number">07</div>
+      <h2>Trend Sources</h2>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Source</th><th>Endpoint</th><th>Auth</th><th>Cost</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Google Trends</strong></td><td><code>serpapi.com/google-trends-api</code></td><td>API key</td><td>Free 100/mo</td></tr>
+          <tr><td><strong>Reddit</strong></td><td><code>GET /r/{sub}/hot.json</code></td><td>Optional</td><td>Free</td></tr>
+          <tr><td><strong>Farcaster</strong></td><td><code>api.neynar.com/v2/farcaster/feed/trending</code></td><td>API key</td><td>Free 300 req/min</td></tr>
+          <tr><td><strong>Hacker News</strong></td><td><code>hn.algolia.com/api/v1/search</code></td><td>None</td><td>Free</td></tr>
+          <tr><td><strong>CoinGecko</strong></td><td><code>api.coingecko.com/api/v3/search/trending</code></td><td>Optional</td><td>Free 30 req/min</td></tr>
+          <tr><td><strong>DeFi Llama</strong></td><td><code>api.llama.fi/protocols</code></td><td>None</td><td>Free</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Farcaster via Neynar</h3>
+    <div class="code-block">
+GET /v2/farcaster/feed/trending          <span class="comment">// trending casts</span>
+GET /v2/farcaster/user?fid={fid}         <span class="comment">// user profile + social data</span>
+GET /v2/farcaster/feed/user/{fid}/popular <span class="comment">// user's popular casts</span>
+GET /v2/farcaster/channel/trending        <span class="comment">// trending channels</span>
+GET /v2/farcaster/cast/search?q={query}   <span class="comment">// search casts</span>
+    </div>
+  </section>
+
+  <!-- PRIVY -->
+  <section class="section" id="privy">
+    <div class="section-header">
+      <div class="section-number">08</div>
+      <h2>Privy Authentication</h2>
+    </div>
+
+    <p>Single SDK. Social + wallet auth. Web and React Native.</p>
+
+    <h3>Supported Login Methods</h3>
+    <div style="margin: 12px 0 24px;">
+      <span class="tag tag-orange">Email OTP</span>
+      <span class="tag tag-orange">SMS</span>
+      <span class="tag tag-tan">Google</span>
+      <span class="tag tag-tan">Apple</span>
+      <span class="tag tag-tan">X / Twitter</span>
+      <span class="tag tag-tan">Discord</span>
+      <span class="tag tag-tan">Farcaster</span>
+      <span class="tag tag-yellow">MetaMask</span>
+      <span class="tag tag-yellow">WalletConnect</span>
+      <span class="tag tag-yellow">Coinbase Wallet</span>
+    </div>
+
+    <h3>Data Returned Post-Auth</h3>
+    <div class="code-block">
+<span class="keyword">interface</span> <span class="type">PrivyUser</span> {
+  id: <span class="type">string</span>;
+  createdAt: <span class="type">Date</span>;
+  linkedAccounts: <span class="type">LinkedAccount</span>[];
+
+  twitter?: {
+    subject: <span class="type">string</span>;      <span class="comment">// Twitter user ID</span>
+    username: <span class="type">string</span>;     <span class="comment">// @handle</span>
+    name: <span class="type">string</span>;         <span class="comment">// Display name</span>
+    profilePictureUrl: <span class="type">string</span>;
+  };
+
+  farcaster?: {
+    fid: <span class="type">number</span>;          <span class="comment">// Farcaster ID</span>
+    username: <span class="type">string</span>;
+    displayName: <span class="type">string</span>;
+    pfp: <span class="type">string</span>;
+    bio: <span class="type">string</span>;
+  };
+}
+    </div>
+
+    <div class="card" style="border-color: var(--red); margin-top: 16px;">
+      <div class="card-header">
+        <div class="card-icon" style="background: var(--red-dim); border-color: var(--red);">⚠</div>
+        <div>
+          <div class="card-title">Critical Limitation</div>
+          <div class="card-subtitle">SOCIAL GRAPH NOT INCLUDED</div>
+        </div>
+      </div>
+      <p>Privy returns <strong style="color: white;">identity</strong> (username, pfp) but <strong style="color: var(--red);">NOT social graph</strong> (followers, interests, liked posts). Workaround:</p>
+      <p style="margin-top:8px;">• <strong style="color: var(--orange);">Farcaster:</strong> Neynar API with FID → follower graph + activity</p>
+      <p>• <strong style="color: var(--orange);">X:</strong> Bearer token → public timeline (limited on Basic)</p>
+    </div>
+  </section>
+
+  <div class="hazard-stripe"></div>
+
+  <!-- DATABASE -->
+  <section class="section" id="database">
+    <div class="section-header">
+      <div class="section-number">09</div>
+      <h2>Database Schema</h2>
+    </div>
+
+    <p>7 tables. PostgreSQL. Users, content, and market data.</p>
+
+    <div class="grid-2" style="margin-top: 16px;">
+      <div class="card">
+        <div class="card-title" style="color: var(--orange);">USERS</div>
+        <p style="font-family: 'JetBrains Mono', monospace; font-size: 11px; line-height: 2; color: var(--tan-muted);">
+          id · privy_id · display_name · avatar_url<br>
+          x_username · x_user_id<br>
+          farcaster_fid · farcaster_username<br>
+          created_at · updated_at
+        </p>
+      </div>
+      <div class="card">
+        <div class="card-title" style="color: var(--orange);">USER_INTERESTS</div>
+        <p style="font-family: 'JetBrains Mono', monospace; font-size: 11px; line-height: 2; color: var(--tan-muted);">
+          id · user_id (FK)<br>
+          category [crypto|politics|sports|ai|...]<br>
+          weight (adjustable via engagement)
+        </p>
+      </div>
+      <div class="card">
+        <div class="card-title" style="color: var(--yellow-green);">TRENDING_TOPICS</div>
+        <p style="font-family: 'JetBrains Mono', monospace; font-size: 11px; line-height: 2; color: var(--tan-muted);">
+          id · source · category · title · summary<br>
+          image_url · source_url · source_data (JSONB)<br>
+          keywords[] · entities[]<br>
+          relevance_score · expires_at
+        </p>
+      </div>
+      <div class="card">
+        <div class="card-title" style="color: var(--yellow-green);">CACHED_MARKETS</div>
+        <p style="font-family: 'JetBrains Mono', monospace; font-size: 11px; line-height: 2; color: var(--tan-muted);">
+          id · source [polymarket|hyperliquid]<br>
+          external_id · market_type [prediction|perp]<br>
+          title · category · current_price<br>
+          volume_24h · open_interest · metadata (JSONB)
+        </p>
+      </div>
+      <div class="card">
+        <div class="card-title" style="color: var(--tan);">TOPIC_MARKET_MATCHES</div>
+        <p style="font-family: 'JetBrains Mono', monospace; font-size: 11px; line-height: 2; color: var(--tan-muted);">
+          id · topic_id (FK) · market_id (FK)<br>
+          match_score (0-1)<br>
+          match_reason (LLM explanation)
+        </p>
+      </div>
+      <div class="card">
+        <div class="card-title" style="color: var(--tan);">FEED_ITEMS</div>
+        <p style="font-family: 'JetBrains Mono', monospace; font-size: 11px; line-height: 2; color: var(--tan-muted);">
+          id · user_id (FK) · topic_id (FK)<br>
+          position · seen · engaged<br>
+          created_at
+        </p>
+      </div>
+      <div class="card" style="grid-column: 1 / -1;">
+        <div class="card-title" style="color: var(--tan);">SCRAPED_LINKS</div>
+        <p style="font-family: 'JetBrains Mono', monospace; font-size: 11px; line-height: 2; color: var(--tan-muted);">
+          id · url (unique) · content_type [tweet|article] · title · body_text · author · keywords[] · entities[] · summary
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ENDPOINTS -->
+  <section class="section" id="endpoints">
+    <div class="section-header">
+      <div class="section-number">10</div>
+      <h2>API Endpoints</h2>
+    </div>
+
+    <h3>Auth & Users</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Method</th><th>Endpoint</th><th>Auth</th><th>Purpose</th></tr></thead>
+        <tbody>
+          <tr><td><span class="tag tag-orange">POST</span></td><td><code>/api/auth/verify</code></td><td>—</td><td>Verify Privy JWT, upsert user</td></tr>
+          <tr><td><span class="tag tag-tan">GET</span></td><td><code>/api/users/me</code></td><td>Bearer</td><td>Current user + interests</td></tr>
+          <tr><td><span class="tag tag-yellow">PUT</span></td><td><code>/api/users/me/interests</code></td><td>Bearer</td><td>Set interest categories</td></tr>
+          <tr><td><span class="tag tag-orange">POST</span></td><td><code>/api/users/me/enrich</code></td><td>Bearer</td><td>Fetch social data, infer interests</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Link Drop — Scrape & Match</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Method</th><th>Endpoint</th><th>Auth</th><th>Purpose</th></tr></thead>
+        <tbody>
+          <tr><td><span class="tag tag-orange">POST</span></td><td><code>/api/scrape</code></td><td>Optional</td><td>Scrape URL → text, keywords, entities</td></tr>
+          <tr><td><span class="tag tag-orange">POST</span></td><td><code>/api/match</code></td><td>Optional</td><td>Keywords/entities → matched markets</td></tr>
+          <tr><td><span class="tag tag-orange">POST</span></td><td><code>/api/analyze-link</code></td><td>Optional</td><td>Combined scrape + match</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Feed</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Method</th><th>Endpoint</th><th>Auth</th><th>Purpose</th></tr></thead>
+        <tbody>
+          <tr><td><span class="tag tag-tan">GET</span></td><td><code>/api/feed?page=&limit=&category=</code></td><td>Bearer</td><td>Personalized feed with markets</td></tr>
+          <tr><td><span class="tag tag-tan">GET</span></td><td><code>/api/feed/refresh</code></td><td>Bearer</td><td>Force-refresh</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Markets — Direct Query</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Method</th><th>Endpoint</th><th>Purpose</th></tr></thead>
+        <tbody>
+          <tr><td><span class="tag tag-tan">GET</span></td><td><code>/api/markets/polymarket/trending</code></td><td>Top predictions by volume</td></tr>
+          <tr><td><span class="tag tag-tan">GET</span></td><td><code>/api/markets/polymarket/search?q=</code></td><td>Search predictions</td></tr>
+          <tr><td><span class="tag tag-tan">GET</span></td><td><code>/api/markets/hyperliquid/assets</code></td><td>All perps with prices</td></tr>
+          <tr><td><span class="tag tag-tan">GET</span></td><td><code>/api/markets/hyperliquid/:coin</code></td><td>Detailed perp data</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- BACKGROUND JOBS -->
+  <section class="section" id="jobs">
+    <div class="section-header">
+      <div class="section-number">11</div>
+      <h2>Background Jobs</h2>
+    </div>
+    <p>5 pipelines. BullMQ on Redis. Continuous charge cycle.</p>
+
+    <div class="pipeline">
+      <div class="pipeline-stage">
+        <div class="pipeline-box"><div class="emoji">📡</div><div class="label">Poll</div><div class="desc">*/15 * * * *</div></div>
+      </div>
+      <div class="pipeline-stage">
+        <div class="pipeline-box"><div class="emoji">🧹</div><div class="label">Dedup</div><div class="desc">fuzzy match</div></div>
+      </div>
+      <div class="pipeline-stage">
+        <div class="pipeline-box"><div class="emoji">🏷️</div><div class="label">Classify</div><div class="desc">gpt-4o-mini</div></div>
+      </div>
+      <div class="pipeline-stage">
+        <div class="pipeline-box"><div class="emoji">✍️</div><div class="label">Summarize</div><div class="desc">+ image gen</div></div>
+      </div>
+      <div class="pipeline-stage">
+        <div class="pipeline-box"><div class="emoji">🎯</div><div class="label">Match</div><div class="desc">markets</div></div>
+      </div>
+    </div>
+
+    <h3>01. Trend Polling — Every 15 Min</h3>
+    <div class="card">
+      <p>Parallel fetch from all sources:</p>
+      <div style="margin-top: 12px; display: flex; flex-wrap: wrap; gap: 6px;">
+        <span class="tag tag-orange">X API Search</span>
+        <span class="tag tag-orange">NewsAPI</span>
+        <span class="tag tag-orange">Reddit /hot</span>
+        <span class="tag tag-orange">Farcaster Trending</span>
+        <span class="tag tag-orange">CryptoPanic</span>
+        <span class="tag tag-orange">CoinGecko</span>
+        <span class="tag tag-orange">Google Trends</span>
+      </div>
+      <p style="margin-top: 12px;">Dedup via fuzzy title match (Levenshtein < 0.3). Classify via GPT-4o-mini. Store in <code>trending_topics</code>.</p>
+    </div>
+
+    <h3>02. Summarize + Image Gen</h3>
+    <div class="card">
+      <p>GPT-4o writes 2-3 sentence summary. Extracts keywords. DALL-E 3 generates editorial illustration per feed card.</p>
+    </div>
+
+    <h3>03. Market Matching</h3>
+    <div class="card">
+      <p>Search Polymarket by keywords/entities. Map HyperLiquid assets via entity→ticker lookup. LLM scores relevance 0-1. Keep > 0.5.</p>
+    </div>
+
+    <h3>04. Price Refresh — Every 5 Min</h3>
+    <div class="card">
+      <p>Batch update cached market prices. Polymarket via CLOB endpoint. HyperLiquid via single <code>allMids</code> call.</p>
+    </div>
+
+    <h3>05. Feed Generation — Every 30 Min</h3>
+    <div class="card">
+      <p>Per-user: filter by interests, join market matches, rank, apply diversity rules.</p>
+    </div>
+  </section>
+
+  <div class="hazard-stripe"></div>
+
+  <!-- LLM -->
+  <section class="section" id="llm">
+    <div class="section-header">
+      <div class="section-number">12</div>
+      <h2>LLM Strategy</h2>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Task</th><th>Model</th><th>Tokens</th><th>Frequency</th><th>Cost/Cycle</th></tr></thead>
+        <tbody>
+          <tr><td>Topic categorization</td><td><code>gpt-4o-mini</code></td><td>~200</td><td>100/cycle</td><td style="color:var(--yellow-green)">$0.003</td></tr>
+          <tr><td>Summary generation</td><td><code>gpt-4o</code></td><td>~500</td><td>100/cycle</td><td style="color:var(--orange)">$0.250</td></tr>
+          <tr><td>Keyword extraction</td><td><code>gpt-4o-mini</code></td><td>~200</td><td>100/cycle</td><td style="color:var(--yellow-green)">$0.003</td></tr>
+          <tr><td>Market scoring</td><td><code>gpt-4o-mini</code></td><td>~300</td><td>500/cycle</td><td style="color:var(--yellow-green)">$0.015</td></tr>
+          <tr><td>Image prompts</td><td><code>gpt-4o-mini</code></td><td>~200</td><td>50/cycle</td><td style="color:var(--yellow-green)">$0.001</td></tr>
+          <tr><td>Link analysis</td><td><code>gpt-4o</code></td><td>~1000</td><td>on-demand</td><td style="color:var(--orange)">$0.005/req</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card" style="margin-top: 12px; border-color: var(--orange);">
+      <div class="card-title" style="font-size: 11px;">COST SUMMARY</div>
+      <p style="margin-top: 6px; font-family: 'JetBrains Mono', monospace; font-size: 13px;">
+        <span style="color: var(--orange);">$0.30</span>/cycle · <span style="color: var(--orange);">$7.20</span>/day @ 4 cycles/hr · <strong style="color: var(--yellow-green);">~$10-15/day</strong> with caching
+      </p>
+    </div>
+  </section>
+
+  <!-- MATCHING -->
+  <section class="section" id="matching">
+    <div class="section-header">
+      <div class="section-number">13</div>
+      <h2>Matching Algorithm</h2>
+    </div>
+
+    <h3>Polymarket Matching Pipeline</h3>
+    <div class="flow">
+      <div class="flow-step">
+        <div class="flow-line"><div class="flow-dot"></div><div class="flow-connector"></div></div>
+        <div class="flow-content"><strong>01. Keyword Search</strong><p>Top 5 keywords → <code>GET /public-search?q={keyword}</code></p></div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-line"><div class="flow-dot"></div><div class="flow-connector"></div></div>
+        <div class="flow-content"><strong>02. Entity Search</strong><p>Named entities (person, org, event) → Polymarket search</p></div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-line"><div class="flow-dot"></div><div class="flow-connector"></div></div>
+        <div class="flow-content"><strong>03. Deduplicate</strong><p>Remove duplicates by conditionId</p></div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-line"><div class="flow-dot"></div><div class="flow-connector"></div></div>
+        <div class="flow-content"><strong>04. Filter</strong><p>Active only. Volume > $1,000</p></div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-line"><div class="flow-dot"></div><div class="flow-connector"></div></div>
+        <div class="flow-content"><strong>05. LLM Score</strong><p>GPT-4o-mini rates relevance 0-1 per topic-market pair</p></div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-line"><div class="flow-dot"></div></div>
+        <div class="flow-content"><strong>06. Return Top 5</strong><p>Score > 0.5, sorted descending</p></div>
+      </div>
+    </div>
+
+    <h3>HyperLiquid Matching</h3>
+    <div class="code-block">
+<span class="comment">// Entity → Ticker lookup + LLM fallback</span>
+<span class="string">"bitcoin"</span> → BTC   <span class="string">"ethereum"</span> → ETH   <span class="string">"solana"</span> → SOL
+<span class="string">"nvidia"</span>  → NVIDIA <span class="string">"tesla"</span>   → TSLA  <span class="string">"gold"</span>   → GOLD
+
+<span class="comment">// "Bitcoin ETF" topic → match BTC perp</span>
+<span class="comment">// Unknown entity → ask LLM to extract ticker</span>
+    </div>
+
+    <h3>Feed Ranking Formula</h3>
+    <div class="code-block">
+score = category_weight × <span class="number">0.4</span>   <span class="comment">// user interest strength</span>
+      + relevance_score × <span class="number">0.3</span>   <span class="comment">// trending intensity</span>
+      + freshness       × <span class="number">0.2</span>   <span class="comment">// decay over 24h</span>
+      + market_volume   × <span class="number">0.1</span>   <span class="comment">// tradeability signal</span>
+    </div>
+  </section>
+
+  <!-- PHASES -->
+  <section class="section" id="phases">
+    <div class="section-header">
+      <div class="section-number">14</div>
+      <h2>Implementation Phases</h2>
+    </div>
+
+    <div class="timeline">
+      <div class="timeline-item active">
+        <div class="timeline-dot"></div>
+        <div class="timeline-phase">PHASE 01 // WEEK 01-02</div>
+        <div class="timeline-title">Link Drop MVP</div>
+        <div class="timeline-desc">
+          Next.js + Tailwind. Single page: paste URL → scrape → matched markets. No auth, no database. In-memory per request.
+          <div style="margin-top: 8px;">
+            <span class="tag tag-orange">Jina Reader</span>
+            <span class="tag tag-orange">X oEmbed</span>
+            <span class="tag tag-orange">Polymarket</span>
+            <span class="tag tag-orange">HyperLiquid</span>
+          </div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-phase">PHASE 02 // WEEK 03-04</div>
+        <div class="timeline-title">Backend + Polling Engine</div>
+        <div class="timeline-desc">PostgreSQL (Supabase), Redis + BullMQ. Trend polling from all sources. Background summarization + market matching. REST API for feed.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-phase">PHASE 03 // WEEK 05-06</div>
+        <div class="timeline-title">Auth + Personalization</div>
+        <div class="timeline-desc">Privy auth (web). Interest calibration onboarding. Personalized feed. Social enrichment via Neynar. Engagement tracking.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-phase">PHASE 04 // WEEK 07-10</div>
+        <div class="timeline-title">React Native Discharge</div>
+        <div class="timeline-desc">Expo project + Privy RN SDK. Native feed UI. Pull-to-refresh. Push notifications for high-signal matches. Deep linking.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COSTS -->
+  <section class="section" id="costs">
+    <div class="section-header">
+      <div class="section-number">15</div>
+      <h2>Cost Projections</h2>
+    </div>
+
+    <h3>Prototype — ~$130/mo</h3>
+    <div style="margin: 16px 0;">
+      <div class="cost-bar">
+        <div class="cost-label">X API Basic</div>
+        <div class="cost-track"><div class="cost-fill" style="width: 77%; background: var(--orange);"></div></div>
+        <div class="cost-value" style="color: var(--orange);">$100</div>
+      </div>
+      <div class="cost-bar">
+        <div class="cost-label">OpenAI</div>
+        <div class="cost-track"><div class="cost-fill" style="width: 23%; background: var(--yellow-green);"></div></div>
+        <div class="cost-value" style="color: var(--yellow-green);">$30</div>
+      </div>
+      <div class="cost-bar">
+        <div class="cost-label">Polymarket</div>
+        <div class="cost-track"><div class="cost-fill" style="width: 0%;"></div></div>
+        <div class="cost-value" style="color: var(--muted);">$0</div>
+      </div>
+      <div class="cost-bar">
+        <div class="cost-label">HyperLiquid</div>
+        <div class="cost-track"><div class="cost-fill" style="width: 0%;"></div></div>
+        <div class="cost-value" style="color: var(--muted);">$0</div>
+      </div>
+    </div>
+
+    <h3>Production @ 10K Users — ~$1,328/mo</h3>
+    <div style="margin: 16px 0;">
+      <div class="cost-bar">
+        <div class="cost-label">OpenAI (LLM)</div>
+        <div class="cost-track"><div class="cost-fill" style="width: 34%; background: var(--orange);"></div></div>
+        <div class="cost-value" style="color: var(--orange);">$450</div>
+      </div>
+      <div class="cost-bar">
+        <div class="cost-label">NewsAPI</div>
+        <div class="cost-track"><div class="cost-fill" style="width: 34%; background: var(--orange);"></div></div>
+        <div class="cost-value" style="color: var(--orange);">$449</div>
+      </div>
+      <div class="cost-bar">
+        <div class="cost-label">X API</div>
+        <div class="cost-track"><div class="cost-fill" style="width: 8%; background: var(--tan);"></div></div>
+        <div class="cost-value" style="color: var(--tan);">$100</div>
+      </div>
+      <div class="cost-bar">
+        <div class="cost-label">Neynar</div>
+        <div class="cost-track"><div class="cost-fill" style="width: 7%; background: var(--tan);"></div></div>
+        <div class="cost-value" style="color: var(--tan);">$99</div>
+      </div>
+      <div class="cost-bar">
+        <div class="cost-label">SerpAPI</div>
+        <div class="cost-track"><div class="cost-fill" style="width: 6%; background: var(--tan);"></div></div>
+        <div class="cost-value" style="color: var(--tan);">$75</div>
+      </div>
+      <div class="cost-bar">
+        <div class="cost-label">DALL-E 3</div>
+        <div class="cost-track"><div class="cost-fill" style="width: 5%; background: var(--tan);"></div></div>
+        <div class="cost-value" style="color: var(--tan);">$60</div>
+      </div>
+      <div class="cost-bar">
+        <div class="cost-label">Infra</div>
+        <div class="cost-track"><div class="cost-fill" style="width: 7%; background: var(--muted);"></div></div>
+        <div class="cost-value" style="color: var(--muted);">$95</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRADEOFFS -->
+  <section class="section" id="tradeoffs">
+    <div class="section-header">
+      <div class="section-number">16</div>
+      <h2>Key Tradeoffs</h2>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title">LLM vs. Keyword Matching</div>
+        <p style="margin-top: 8px;">Keyword search hits too many false positives. "Trump" matches dozens of markets. LLM understands a tariff tweet → tariff market, not primary market. Cost: ~$0.015/500 pairs.</p>
+      </div>
+      <div class="card">
+        <div class="card-title">Polling vs. Streaming</div>
+        <p style="margin-top: 8px;">X streaming = Enterprise ($$$). Most sources lack streaming. 15-min poll is fresh enough. Exception: HL WebSocket for live prices.</p>
+      </div>
+      <div class="card">
+        <div class="card-title">Jina Reader vs. Self-Hosted</div>
+        <p style="margin-top: 8px;">Zero infra. Handles JS/anti-bot. Free. Production: add Firecrawl backup, self-host Readability for speed.</p>
+      </div>
+      <div class="card">
+        <div class="card-title">Materialized vs. On-Demand Feed</div>
+        <p style="margin-top: 8px;">Pre-compute per-user feeds. Lower latency, enables push notifications. Trade: up to 30 min stale.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="hazard-stripe"></div>
+
+  <!-- EXAMPLE -->
+  <section class="section" id="example">
+    <div class="section-header">
+      <div class="section-number">17</div>
+      <h2>End-to-End Example</h2>
+    </div>
+
+    <h3>Link Drop Flow</h3>
+    <div class="flow">
+      <div class="flow-step">
+        <div class="flow-line"><div class="flow-dot"></div><div class="flow-connector"></div></div>
+        <div class="flow-content"><strong>01. User Pastes Link</strong><p><code>https://x.com/elonmusk/status/1234567890</code></p></div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-line"><div class="flow-dot"></div><div class="flow-connector"></div></div>
+        <div class="flow-content"><strong>02. Detect & Scrape</strong><p>X post detected → fetch tweet → "Spoke with NVIDIA CEO about AI chip exports to China"</p></div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-line"><div class="flow-dot"></div><div class="flow-connector"></div></div>
+        <div class="flow-content"><strong>03. LLM Analysis</strong><p>Keywords: nvidia, AI chips, China · Entities: NVIDIA, China, Musk · Sentiment: neutral</p></div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-line"><div class="flow-dot"></div><div class="flow-connector"></div></div>
+        <div class="flow-content"><strong>04. Polymarket Search</strong><p>"US ban AI chip exports to China by 2025?" — 42% Yes ($2.1M vol)</p></div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-line"><div class="flow-dot"></div><div class="flow-connector"></div></div>
+        <div class="flow-content"><strong>05. HyperLiquid Match</strong><p>NVIDIA-PERP: $145.20, +0.003% funding, $48M vol</p></div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-line"><div class="flow-dot"></div></div>
+        <div class="flow-content"><strong>06. Render Card</strong><p>Feed card: tweet summary + prediction markets + perps</p></div>
+      </div>
+    </div>
+
+    <h3>Sample Feed Card</h3>
+    <div class="card" style="border-color: var(--orange);">
+      <div style="display: flex; gap: 16px; align-items: start;">
+        <div style="width: 72px; height: 72px; background: var(--orange); border-radius: 3px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 28px;">🏦</div>
+        <div style="flex: 1;">
+          <div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px;"><span class="live-dot"></span>BUSINESS // NEWSAPI // 12 MIN AGO</div>
+          <div class="card-title" style="margin: 6px 0 8px; font-size: 15px;">Federal Reserve Signals Rate Cut in September</div>
+          <p style="font-size: 12px;">The Fed indicated a likely 25bps rate cut at the September meeting, citing cooling inflation and labor market normalization.</p>
+          <div style="margin-top: 12px; display: flex; gap: 8px; flex-wrap: wrap;">
+            <div style="background: transparent; border: 1px solid var(--orange); border-radius: 2px; padding: 8px 12px;">
+              <div style="font-family: 'Space Grotesk', Arial, sans-serif; font-size: 10px; font-weight: 700; text-transform: uppercase; color: var(--orange);">Fed Cuts Rates in Sept?</div>
+              <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--tan-muted); margin-top: 2px;">88% YES · $4.2M vol</div>
+            </div>
+            <div style="background: transparent; border: 1px solid var(--green); border-radius: 2px; padding: 8px 12px;">
+              <div style="font-family: 'Space Grotesk', Arial, sans-serif; font-size: 10px; font-weight: 700; text-transform: uppercase; color: var(--green-bright);">BTC Reaches $80K EOY?</div>
+              <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--tan-muted); margin-top: 2px;">34% YES · $1.8M vol</div>
+            </div>
+            <div style="background: transparent; border: 1px solid var(--yellow-green); border-radius: 2px; padding: 8px 12px;">
+              <div style="font-family: 'Space Grotesk', Arial, sans-serif; font-size: 10px; font-weight: 700; text-transform: uppercase; color: var(--yellow-green);">BTC-PERP</div>
+              <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--tan-muted); margin-top: 2px;">$67,400 · +0.01% funding</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FUTURE -->
+  <section class="section" id="future" style="margin-bottom: 0;">
+    <div class="section-header">
+      <div class="section-number">18</div>
+      <h2>Future Enhancements</h2>
+    </div>
+
+    <div class="grid-3">
+      <div class="card">
+        <div style="font-size: 22px; margin-bottom: 8px;">💰</div>
+        <div class="card-title">One-Tap Trading</div>
+        <p>Trade matched markets via Privy embedded wallet</p>
+      </div>
+      <div class="card">
+        <div style="font-size: 22px; margin-bottom: 8px;">👥</div>
+        <div class="card-title">Social Feed</div>
+        <p>Follow others. See what markets they watch.</p>
+      </div>
+      <div class="card">
+        <div style="font-size: 22px; margin-bottom: 8px;">🔔</div>
+        <div class="card-title">Price Alerts</div>
+        <p>"Notify when this market moves 10%+"</p>
+      </div>
+      <div class="card">
+        <div style="font-size: 22px; margin-bottom: 8px;">🤖</div>
+        <div class="card-title">AI Research Agent</div>
+        <p>Deep-dive any topic with citations</p>
+      </div>
+      <div class="card">
+        <div style="font-size: 22px; margin-bottom: 8px;">📊</div>
+        <div class="card-title">Portfolio Tracking</div>
+        <p>Connect wallet. Show P&L tied to feed.</p>
+      </div>
+      <div class="card">
+        <div style="font-size: 22px; margin-bottom: 8px;">🎨</div>
+        <div class="card-title">Creator Economy</div>
+        <p>Create and share market analysis cards</p>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<script>
+  const sections = document.querySelectorAll('.section, .hero');
+  const navLinks = document.querySelectorAll('.nav-link');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.id;
+        navLinks.forEach(link => {
+          link.classList.toggle('active', link.getAttribute('href') === '#' + id);
+        });
+      }
+    });
+  }, { rootMargin: '-20% 0px -80% 0px' });
+
+  sections.forEach(section => {
+    if (section.id) observer.observe(section);
+  });
+
+  navLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      const target = document.querySelector(link.getAttribute('href'));
+      if (target) target.scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+</script>
+
+</body>
+</html>
