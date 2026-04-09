@@ -732,11 +732,13 @@
 
   <div class="nav-section">Overview</div>
   <a class="nav-link active" href="#hero">System Overview</a>
+  <a class="nav-link" href="#thesis">Thesis</a>
   <a class="nav-link" href="#architecture">Architecture</a>
 
   <div class="nav-section">Data Sources</div>
   <a class="nav-link" href="#polymarket">Polymarket</a>
   <a class="nav-link" href="#hyperliquid">HyperLiquid</a>
+  <a class="nav-link" href="#options">Options</a>
   <a class="nav-link" href="#twitter">X / Twitter</a>
   <a class="nav-link" href="#news">News & Scraping</a>
   <a class="nav-link" href="#trends">Trend Sources</a>
@@ -772,7 +774,7 @@
         <div class="hero-stat-label">Data Sources</div>
       </div>
       <div class="hero-stat">
-        <div class="hero-stat-value">02</div>
+        <div class="hero-stat-value">03</div>
         <div class="hero-stat-label">Market Types</div>
       </div>
       <div class="hero-stat">
@@ -785,6 +787,113 @@
       </div>
     </div>
   </section>
+
+  <!-- THESIS -->
+  <section class="section" id="thesis">
+    <div class="section-header">
+      <div class="section-number">00</div>
+      <h2>Thesis: Signal-to-Position</h2>
+    </div>
+
+    <div class="card" style="border-color: var(--orange); padding: 32px;">
+      <h3 style="margin-top: 0;">The Problem</h3>
+      <p>Markets exist everywhere — prediction markets, perpetual futures, options — but finding the right market at the right time is still manual, fragmented work. A trader who follows AI policy news has to manually search Polymarket for relevant prediction markets, check HyperLiquid for NVIDIA perps, and scan Deribit for options plays.</p>
+      <p>The information that drives trading decisions — trending topics, breaking news, social sentiment, expert chatter — lives in completely different places than the markets themselves. <strong style="color: white;">Nobody connects them.</strong></p>
+    </div>
+
+    <div class="card" style="margin-top: 16px; padding: 32px;">
+      <h3 style="margin-top: 0;">The Insight</h3>
+      <p>Every tradeable market is downstream of a real-world narrative. "Will the Fed cut rates?" is a Polymarket prediction, a BTC perpetual trade, and a set of Treasury options all at once. <strong style="color: var(--orange);">The narrative is the root. The markets are leaves on the same tree.</strong></p>
+      <p style="margin-top: 16px;">If you know what someone cares about and you can see what the world is talking about right now, you can surface exactly the markets that matter to them, ranked by:</p>
+      <div style="margin-top: 16px; display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+        <div style="border: 1px solid var(--border); border-radius: 2px; padding: 12px;">
+          <div style="font-family: 'Space Grotesk', Arial, sans-serif; font-size: 10px; font-weight: 700; color: var(--orange); text-transform: uppercase; letter-spacing: 1px;">Relevance</div>
+          <p style="font-size: 12px; margin: 4px 0 0;">Does this market match their interests and expertise?</p>
+        </div>
+        <div style="border: 1px solid var(--border); border-radius: 2px; padding: 12px;">
+          <div style="font-family: 'Space Grotesk', Arial, sans-serif; font-size: 10px; font-weight: 700; color: var(--orange); text-transform: uppercase; letter-spacing: 1px;">Volume & Liquidity</div>
+          <p style="font-size: 12px; margin: 4px 0 0;">Is there enough depth to take a meaningful position?</p>
+        </div>
+        <div style="border: 1px solid var(--border); border-radius: 2px; padding: 12px;">
+          <div style="font-family: 'Space Grotesk', Arial, sans-serif; font-size: 10px; font-weight: 700; color: var(--orange); text-transform: uppercase; letter-spacing: 1px;">Social Momentum</div>
+          <p style="font-size: 12px; margin: 4px 0 0;">Are people talking about this with increasing intensity?</p>
+        </div>
+        <div style="border: 1px solid var(--border); border-radius: 2px; padding: 12px;">
+          <div style="font-family: 'Space Grotesk', Arial, sans-serif; font-size: 10px; font-weight: 700; color: var(--orange); text-transform: uppercase; letter-spacing: 1px;">Sentiment Signal</div>
+          <p style="font-size: 12px; margin: 4px 0 0;">Is the conversation bullish, bearish, or uncertain?</p>
+        </div>
+        <div style="border: 1px solid var(--border); border-radius: 2px; padding: 12px;">
+          <div style="font-family: 'Space Grotesk', Arial, sans-serif; font-size: 10px; font-weight: 700; color: var(--orange); text-transform: uppercase; letter-spacing: 1px;">News Attention</div>
+          <p style="font-size: 12px; margin: 4px 0 0;">How much mainstream press is covering this narrative?</p>
+        </div>
+        <div style="border: 1px solid var(--border); border-radius: 2px; padding: 12px;">
+          <div style="font-family: 'Space Grotesk', Arial, sans-serif; font-size: 10px; font-weight: 700; color: var(--orange); text-transform: uppercase; letter-spacing: 1px;">Timeliness</div>
+          <p style="font-size: 12px; margin: 4px 0 0;">Is this breaking right now or fading?</p>
+        </div>
+      </div>
+    </div>
+
+    <h3>The Product</h3>
+    <p>Capacitr is the bridge between signals and positions.</p>
+
+    <div class="flow" style="margin-top: 16px;">
+      <div class="flow-step">
+        <div class="flow-line"><div class="flow-dot"></div><div class="flow-connector"></div></div>
+        <div class="flow-content"><strong>01. Absorb Signals</strong><p>Poll X, Reddit, Farcaster, news APIs, Google Trends, and crypto feeds continuously. Extract trending narratives.</p></div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-line"><div class="flow-dot"></div><div class="flow-connector"></div></div>
+        <div class="flow-content"><strong>02. Charge with Intelligence</strong><p>LLM analysis categorizes, summarizes, and extracts tradeable entities. "NVIDIA earnings beat" connects to an NVIDIA perp, a semiconductor option, and a prediction market about AI chip exports.</p></div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-line"><div class="flow-dot"></div><div class="flow-connector"></div></div>
+        <div class="flow-content">
+          <strong>03. Discharge Matched Markets</strong>
+          <p>For every narrative, surface positions across three market types:</p>
+          <div style="margin-top: 8px; display: flex; gap: 8px; flex-wrap: wrap;">
+            <span class="tag tag-orange">Predictions (Polymarket) — Binary Outcomes</span>
+            <span class="tag tag-yellow">Perps (HyperLiquid) — Directional, Leveraged</span>
+            <span class="tag tag-tan">Options (Deribit/Aevo/Derive) — Asymmetric Risk/Reward</span>
+          </div>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-line"><div class="flow-dot"></div><div class="flow-connector"></div></div>
+        <div class="flow-content"><strong>04. Personalize the Feed</strong><p>Interests, social graph, and engagement patterns continuously refine what surfaces. The feed gets sharper over time.</p></div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-line"><div class="flow-dot"></div></div>
+        <div class="flow-content"><strong>05. Enable Instant Action</strong><p>Every feed card shows the narrative AND matching markets with live prices, volume, and entry points. Read a story, evaluate the trade — same view.</p></div>
+      </div>
+    </div>
+
+    <h3>Who It's For</h3>
+    <div class="grid-2" style="margin-top: 12px;">
+      <div class="card">
+        <div class="card-title">Crypto Traders</div>
+        <p>Want to trade narratives, not just charts. See a tweet, take a position.</p>
+      </div>
+      <div class="card">
+        <div class="card-title">Prediction Market Enthusiasts</div>
+        <p>Want relevant markets surfaced to them instead of browsing thousands.</p>
+      </div>
+      <div class="card">
+        <div class="card-title">Subject Matter Experts</div>
+        <p>Policy wonks, sports analysts, tech insiders — deep domain knowledge, no time to hunt for matching markets.</p>
+      </div>
+      <div class="card">
+        <div class="card-title">Degens</div>
+        <p>Fastest path from "I just saw this tweet" to "I have a position on this."</p>
+      </div>
+    </div>
+
+    <h3>The Moat</h3>
+    <div class="card" style="border-color: var(--orange); margin-top: 12px;">
+      <p>The value compounds. As users engage — clicking, expanding, trading — Capacitr learns which signal-to-market connections actually convert. The matching algorithm improves. The feed sharpens. The proprietary dataset of <strong style="color: var(--orange);">"which narratives drive which markets"</strong> becomes a unique asset that no individual exchange or news platform has.</p>
+    </div>
+  </section>
+
+  <div class="hazard-stripe"></div>
 
   <!-- PRODUCT SCOPE -->
   <section class="section" id="scope">
@@ -980,12 +1089,105 @@
     </div>
   </section>
 
+  <!-- OPTIONS -->
+  <section class="section" id="options">
+    <div class="section-header">
+      <div class="section-number">05</div>
+      <h2>Options Platforms</h2>
+    </div>
+    <p><span class="live-dot"></span>Third market type: crypto options. Asymmetric risk/reward and volatility exposure. All read endpoints free, no auth.</p>
+
+    <h3>Deribit — Gold Standard (~90% of Crypto Options Volume)</h3>
+    <p><code>www.deribit.com/api/v2</code> · CEX · <span style="color: var(--yellow-green);">20 req/sec unauthed</span></p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Endpoint</th><th>Returns</th></tr></thead>
+        <tbody>
+          <tr><td><code>GET /public/get_instruments?currency=BTC&kind=option</code></td><td>All BTC options (strike, expiry, type)</td></tr>
+          <tr><td><code>GET /public/ticker?instrument_name={name}</code></td><td>Price, IV, greeks, OI, volume, bid/ask</td></tr>
+          <tr><td><code>GET /public/get_order_book?instrument_name={name}</code></td><td>Full orderbook</td></tr>
+          <tr><td><code>GET /public/get_book_summary_by_currency?currency=BTC&kind=option</code></td><td>Summary of ALL BTC options</td></tr>
+          <tr><td><code>GET /public/get_historical_volatility?currency=BTC</code></td><td>Historical volatility</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card" style="margin-top: 12px;">
+      <p><strong style="color: var(--orange);">TICKER DATA INCLUDES:</strong> mark_price, mark_iv (implied vol %), greeks (delta, gamma, vega, theta, rho), open_interest, bid/ask, volume_24h, underlying_price</p>
+      <p style="margin-top: 8px;"><strong style="color: var(--tan);">INSTRUMENT FORMAT:</strong> <code>BTC-28MAR25-80000-C</code> (asset-expiry-strike-type)</p>
+    </div>
+
+    <h3>Aevo — Hybrid DEX (OP Stack L2)</h3>
+    <p><code>api.aevo.xyz</code> · DEX · <span style="color: var(--yellow-green);">~100 req/min</span></p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Endpoint</th><th>Returns</th></tr></thead>
+        <tbody>
+          <tr><td><code>GET /markets?asset=BTC&instrument_type=OPTION</code></td><td>All BTC options markets</td></tr>
+          <tr><td><code>GET /orderbook?instrument_name={name}</code></td><td>Full orderbook</td></tr>
+          <tr><td><code>GET /index?asset=BTC</code></td><td>Current index/spot price</td></tr>
+          <tr><td><code>GET /statistics</code></td><td>Exchange-wide OI and volume</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Derive — DEX (Formerly Lyra V2)</h3>
+    <p><code>api.derive.xyz</code> · DEX · <span style="color: var(--yellow-green);">~10 req/sec</span> · Mirrors Deribit API design</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Endpoint</th><th>Returns</th></tr></thead>
+        <tbody>
+          <tr><td><code>GET /public/get_instruments?currency=BTC&kind=option</code></td><td>List options (Deribit-style)</td></tr>
+          <tr><td><code>GET /public/get_ticker?instrument_name={name}</code></td><td>Price, IV, greeks, OI</td></tr>
+          <tr><td><code>GET /public/get_order_book?instrument_name={name}</code></td><td>Full orderbook</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Why Options Matter for Capacitr</h3>
+    <div class="card" style="border-color: var(--orange); margin-top: 12px;">
+      <p style="margin-bottom: 12px;">Each market type answers a different question about the same narrative:</p>
+      <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+        <div style="flex: 1; min-width: 180px; border: 1px solid var(--orange); border-radius: 2px; padding: 12px;">
+          <div style="font-family: 'Space Grotesk', Arial, sans-serif; font-size: 10px; font-weight: 700; color: var(--orange); text-transform: uppercase; letter-spacing: 1px;">Predictions</div>
+          <p style="font-size: 12px; margin: 4px 0 0;">"Will X happen?" — Binary outcome</p>
+        </div>
+        <div style="flex: 1; min-width: 180px; border: 1px solid var(--yellow-green); border-radius: 2px; padding: 12px;">
+          <div style="font-family: 'Space Grotesk', Arial, sans-serif; font-size: 10px; font-weight: 700; color: var(--yellow-green); text-transform: uppercase; letter-spacing: 1px;">Perpetuals</div>
+          <p style="font-size: 12px; margin: 4px 0 0;">"Which direction?" — Directional exposure</p>
+        </div>
+        <div style="flex: 1; min-width: 180px; border: 1px solid var(--tan); border-radius: 2px; padding: 12px;">
+          <div style="font-family: 'Space Grotesk', Arial, sans-serif; font-size: 10px; font-weight: 700; color: var(--tan); text-transform: uppercase; letter-spacing: 1px;">Options</div>
+          <p style="font-size: 12px; margin: 4px 0 0;">"How volatile?" — Asymmetric risk, defined downside</p>
+        </div>
+      </div>
+      <p style="margin-top: 16px;"><strong style="color: var(--orange);">Example:</strong> "Fed rate decision tomorrow" →<br>
+        Polymarket: "Will Fed cut rates?" (68% Yes)<br>
+        HyperLiquid: BTC-PERP (directional bet)<br>
+        Deribit: BTC options at nearest expiry (volatility play, defined risk)</p>
+    </div>
+
+    <h3>Other Platforms Evaluated</h3>
+    <div class="table-wrap" style="margin-top: 12px;">
+      <table>
+        <thead><tr><th>Platform</th><th>Type</th><th>Status</th><th>Verdict</th></tr></thead>
+        <tbody>
+          <tr><td><strong>OKX Options</strong></td><td>CEX</td><td style="color: var(--yellow-green);">Active</td><td>Good supplementary API — <code>/public/opt-summary</code> with greeks/IV</td></tr>
+          <tr><td><strong>Delta Exchange</strong></td><td>CEX</td><td style="color: var(--yellow-green);">Active</td><td>Smaller CEX, decent REST API</td></tr>
+          <tr><td><strong>Premia Finance</strong></td><td>DEX</td><td style="color: var(--tan);">Subgraph only</td><td>No REST API — requires GraphQL</td></tr>
+          <tr><td><strong>Hegic</strong></td><td>DEX</td><td style="color: var(--tan);">Low volume</td><td>Subgraph only, declining usage</td></tr>
+          <tr><td><strong>Opyn / Squeeth</strong></td><td>DEX</td><td style="color: var(--red);">Deprecated</td><td>Wound down late 2024</td></tr>
+          <tr><td><strong>Zeta Markets</strong></td><td>DEX</td><td style="color: var(--tan);">Pivoted</td><td>Solana — pivoted to perps only</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
   <div class="hazard-stripe"></div>
 
   <!-- TWITTER -->
   <section class="section" id="twitter">
     <div class="section-header">
-      <div class="section-number">05</div>
+      <div class="section-number">06</div>
       <h2>X / Twitter API</h2>
     </div>
 
@@ -1037,7 +1239,7 @@
   <!-- NEWS -->
   <section class="section" id="news">
     <div class="section-header">
-      <div class="section-number">06</div>
+      <div class="section-number">07</div>
       <h2>News & Article Scraping</h2>
     </div>
 
@@ -1082,7 +1284,7 @@
   <!-- TRENDS -->
   <section class="section" id="trends">
     <div class="section-header">
-      <div class="section-number">07</div>
+      <div class="section-number">08</div>
       <h2>Trend Sources</h2>
     </div>
 
@@ -1113,7 +1315,7 @@ GET /v2/farcaster/cast/search?q={query}   <span class="comment">// search casts<
   <!-- PRIVY -->
   <section class="section" id="privy">
     <div class="section-header">
-      <div class="section-number">08</div>
+      <div class="section-number">09</div>
       <h2>Privy Authentication</h2>
     </div>
 
@@ -1176,7 +1378,7 @@ GET /v2/farcaster/cast/search?q={query}   <span class="comment">// search casts<
   <!-- DATABASE -->
   <section class="section" id="database">
     <div class="section-header">
-      <div class="section-number">09</div>
+      <div class="section-number">10</div>
       <h2>Database Schema</h2>
     </div>
 
@@ -1246,7 +1448,7 @@ GET /v2/farcaster/cast/search?q={query}   <span class="comment">// search casts<
   <!-- ENDPOINTS -->
   <section class="section" id="endpoints">
     <div class="section-header">
-      <div class="section-number">10</div>
+      <div class="section-number">11</div>
       <h2>API Endpoints</h2>
     </div>
 
@@ -1303,7 +1505,7 @@ GET /v2/farcaster/cast/search?q={query}   <span class="comment">// search casts<
   <!-- BACKGROUND JOBS -->
   <section class="section" id="jobs">
     <div class="section-header">
-      <div class="section-number">11</div>
+      <div class="section-number">12</div>
       <h2>Background Jobs</h2>
     </div>
     <p>5 pipelines. BullMQ on Redis. Continuous charge cycle.</p>
@@ -1367,7 +1569,7 @@ GET /v2/farcaster/cast/search?q={query}   <span class="comment">// search casts<
   <!-- LLM -->
   <section class="section" id="llm">
     <div class="section-header">
-      <div class="section-number">12</div>
+      <div class="section-number">13</div>
       <h2>LLM Strategy</h2>
     </div>
 
@@ -1396,7 +1598,7 @@ GET /v2/farcaster/cast/search?q={query}   <span class="comment">// search casts<
   <!-- MATCHING -->
   <section class="section" id="matching">
     <div class="section-header">
-      <div class="section-number">13</div>
+      <div class="section-number">14</div>
       <h2>Matching Algorithm</h2>
     </div>
 
@@ -1450,7 +1652,7 @@ score = category_weight × <span class="number">0.4</span>   <span class="commen
   <!-- PHASES -->
   <section class="section" id="phases">
     <div class="section-header">
-      <div class="section-number">14</div>
+      <div class="section-number">15</div>
       <h2>Implementation Phases</h2>
     </div>
 
@@ -1493,7 +1695,7 @@ score = category_weight × <span class="number">0.4</span>   <span class="commen
   <!-- COSTS -->
   <section class="section" id="costs">
     <div class="section-header">
-      <div class="section-number">15</div>
+      <div class="section-number">16</div>
       <h2>Cost Projections</h2>
     </div>
 
@@ -1564,7 +1766,7 @@ score = category_weight × <span class="number">0.4</span>   <span class="commen
   <!-- TRADEOFFS -->
   <section class="section" id="tradeoffs">
     <div class="section-header">
-      <div class="section-number">16</div>
+      <div class="section-number">17</div>
       <h2>Key Tradeoffs</h2>
     </div>
 
@@ -1593,7 +1795,7 @@ score = category_weight × <span class="number">0.4</span>   <span class="commen
   <!-- EXAMPLE -->
   <section class="section" id="example">
     <div class="section-header">
-      <div class="section-number">17</div>
+      <div class="section-number">18</div>
       <h2>End-to-End Example</h2>
     </div>
 
@@ -1655,7 +1857,7 @@ score = category_weight × <span class="number">0.4</span>   <span class="commen
   <!-- FUTURE -->
   <section class="section" id="future" style="margin-bottom: 0;">
     <div class="section-header">
-      <div class="section-number">18</div>
+      <div class="section-number">19</div>
       <h2>Future Enhancements</h2>
     </div>
 
