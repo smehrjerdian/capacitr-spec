@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CAPACITR — Technical Specification</title>
+  <link rel="icon" href="brand/favicon.png" type="image/png">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
@@ -11,25 +12,30 @@
       --orange: #FA5302;
       --orange-dim: rgba(250, 83, 2, 0.12);
       --orange-mid: rgba(250, 83, 2, 0.25);
-      --green: #0F5331;
-      --green-dim: rgba(15, 83, 49, 0.3);
-      --green-bright: #00e676;
-      --board-dark: #021822;
-      --card: #0a1f2c;
-      --card-border: #1a3040;
-      --card-hover: #0f2a3a;
-      --tan: #D9D0C0;
-      --tan-dim: rgba(217, 208, 192, 0.15);
-      --tan-muted: rgba(217, 208, 192, 0.5);
-      --yellow-green: #CBFF02;
-      --yellow-green-dim: rgba(203, 255, 2, 0.1);
-      --signal-blue: #F1F9FF;
-      --signal-blue-dim: rgba(241, 249, 255, 0.06);
-      --muted: #6B7280;
-      --border: #1a3040;
-      --border-accent: #2a4050;
+      --green: #002B1B;
+      --green-dim: rgba(0, 43, 27, 0.3);
+      --green-bright: #A2FF00;
+      --board-dark: #0a1a14;
+      --card: #0f2218;
+      --card-border: #1a3528;
+      --card-hover: #142e22;
+      --tan: #D6CFC1;
+      --tan-dim: rgba(214, 207, 193, 0.12);
+      --tan-muted: rgba(214, 207, 193, 0.55);
+      --yellow-green: #A2FF00;
+      --yellow-green-dim: rgba(162, 255, 0, 0.08);
+      --signal-blue: #D1D7C4;
+      --signal-blue-dim: rgba(209, 215, 196, 0.06);
+      --muted: #7a8672;
+      --border: #1a3528;
+      --border-accent: #2a4a38;
       --red: #ff5252;
       --red-dim: rgba(255, 82, 82, 0.12);
+      --sage: #D1D7C4;
+      --sage-dim: rgba(209, 215, 196, 0.08);
+      --forest: #002B1B;
+      --lime: #A2FF00;
+      --topnav-height: 52px;
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -42,39 +48,151 @@
       -webkit-font-smoothing: antialiased;
     }
 
+    /* ===== TOP NAVIGATION BAR ===== */
+    .topnav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: var(--topnav-height);
+      background: #061210;
+      border-bottom: 1px solid var(--border);
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+    }
+
+    .topnav-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .topnav-wordmark {
+      height: 22px;
+      width: auto;
+      display: block;
+    }
+
+    .topnav-links {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .topnav-links a {
+      font-family: 'Space Grotesk', Arial, sans-serif;
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--tan-muted);
+      text-decoration: none;
+      padding: 6px 12px;
+      border-radius: 2px;
+      transition: all 0.15s ease-out;
+    }
+
+    .topnav-links a:hover {
+      color: var(--orange);
+      background: var(--orange-dim);
+    }
+
+    .topnav-links .twitter-link {
+      color: var(--sage);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .topnav-links .twitter-link:hover {
+      color: var(--orange);
+    }
+
+    /* Hamburger Button */
+    .hamburger-btn {
+      display: none;
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      cursor: pointer;
+      padding: 6px 8px;
+      flex-direction: column;
+      gap: 4px;
+      align-items: center;
+      justify-content: center;
+      z-index: 300;
+    }
+
+    .hamburger-btn span {
+      display: block;
+      width: 18px;
+      height: 2px;
+      background: var(--orange);
+      border-radius: 1px;
+      transition: all 0.2s ease-out;
+    }
+
+    .hamburger-btn.active span:nth-child(1) {
+      transform: rotate(45deg) translate(4px, 4px);
+    }
+    .hamburger-btn.active span:nth-child(2) {
+      opacity: 0;
+    }
+    .hamburger-btn.active span:nth-child(3) {
+      transform: rotate(-45deg) translate(4px, -4px);
+    }
+
+    /* Sidebar overlay backdrop */
+    .sidebar-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 140;
+    }
+
+    .sidebar-overlay.active {
+      display: block;
+    }
+
     /* ===== SIDEBAR ===== */
     .sidebar {
       position: fixed;
       left: 0;
-      top: 0;
+      top: var(--topnav-height);
       width: 260px;
-      height: 100vh;
-      background: #010f18;
+      height: calc(100vh - var(--topnav-height));
+      background: #061210;
       border-right: 1px solid var(--border);
       overflow-y: auto;
-      z-index: 100;
+      z-index: 150;
       padding: 0;
+      transition: transform 0.3s ease-out;
     }
 
     .sidebar-logo {
-      padding: 24px 20px 20px;
+      padding: 20px 16px 16px;
       border-bottom: 1px solid var(--border);
     }
 
-    .sidebar-logo h1 {
-      font-family: 'Space Grotesk', Arial, sans-serif;
-      font-size: 20px;
-      font-weight: 700;
-      color: var(--orange);
-      letter-spacing: 4px;
-      text-transform: uppercase;
+    .sidebar-logo img {
+      width: 100%;
+      max-width: 200px;
+      height: auto;
+      display: block;
     }
 
     .sidebar-logo p {
       font-family: 'Space Grotesk', Arial, sans-serif;
       font-size: 9px;
       color: var(--muted);
-      margin-top: 6px;
+      margin-top: 8px;
       text-transform: uppercase;
       letter-spacing: 2px;
     }
@@ -121,6 +239,7 @@
       margin-left: 260px;
       max-width: 920px;
       padding: 48px 56px 120px;
+      padding-top: calc(var(--topnav-height) + 48px);
     }
 
     /* ===== HERO ===== */
@@ -128,6 +247,7 @@
       margin-bottom: 64px;
       padding-bottom: 48px;
       border-bottom: 1px solid var(--border);
+      scroll-margin-top: calc(var(--topnav-height) + 24px);
     }
 
     .hero-badge {
@@ -196,7 +316,7 @@
     /* ===== SECTIONS ===== */
     .section {
       margin-bottom: 64px;
-      scroll-margin-top: 32px;
+      scroll-margin-top: calc(var(--topnav-height) + 24px);
     }
 
     .section-header {
@@ -354,7 +474,7 @@
     }
 
     thead {
-      background: #010f18;
+      background: #061210;
     }
 
     th {
@@ -390,7 +510,7 @@
 
     /* ===== CODE BLOCKS ===== */
     .code-block {
-      background: #010f18;
+      background: #061210;
       border: 1px solid var(--border);
       border-radius: 3px;
       padding: 20px;
@@ -410,7 +530,7 @@
 
     /* ===== ARCHITECTURE DIAGRAM ===== */
     .arch-diagram {
-      background: #010f18;
+      background: #061210;
       border: 1px solid var(--border);
       border-radius: 3px;
       padding: 32px;
@@ -698,10 +818,71 @@
 
     /* ===== RESPONSIVE ===== */
     @media (max-width: 900px) {
-      .sidebar { display: none; }
-      .main { margin-left: 0; padding: 24px; }
+      .hamburger-btn {
+        display: flex;
+      }
+
+      .topnav-links {
+        display: none;
+      }
+
+      .topnav-left {
+        flex: 1;
+        justify-content: flex-start;
+      }
+
+      .topnav {
+        justify-content: flex-start;
+        gap: 0;
+      }
+
+      .topnav-wordmark-wrap {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+
+      .sidebar {
+        transform: translateX(-100%);
+      }
+
+      .sidebar.open {
+        transform: translateX(0);
+        box-shadow: 4px 0 24px rgba(0, 0, 0, 0.5);
+      }
+
+      /* Mobile nav links inside sidebar */
+      .mobile-nav-links {
+        display: block !important;
+        padding: 12px 20px;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .mobile-nav-links a {
+        display: block;
+        font-family: 'Space Grotesk', Arial, sans-serif;
+        font-size: 11px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        color: var(--tan-muted);
+        text-decoration: none;
+        padding: 8px 0;
+        transition: color 0.15s ease-out;
+      }
+
+      .mobile-nav-links a:hover {
+        color: var(--orange);
+      }
+
+      .main { margin-left: 0; padding: 24px; padding-top: calc(var(--topnav-height) + 24px); }
       .grid-2, .grid-3 { grid-template-columns: 1fr; }
       .hero h1 { font-size: 28px; }
+    }
+
+    /* Hide mobile nav links on desktop */
+    .mobile-nav-links {
+      display: none;
     }
 
     /* ===== LIVE INDICATOR ===== */
@@ -723,11 +904,43 @@
 </head>
 <body>
 
+<!-- Top Navigation Bar -->
+<header class="topnav">
+  <div class="topnav-left">
+    <button class="hamburger-btn" id="hamburgerBtn" aria-label="Toggle menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    <a href="https://capacitr.lol" class="topnav-wordmark-wrap">
+      <img src="brand/wordmark.png" alt="Capacitr" class="topnav-wordmark">
+    </a>
+  </div>
+  <div class="topnav-links">
+    <a href="https://capacitr.lol">Home</a>
+    <a href="https://app.capacitr.lol">App</a>
+    <a href="https://x.com/capacitr_xyz" target="_blank" rel="noopener" class="twitter-link">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+      @capacitr_xyz
+    </a>
+  </div>
+</header>
+
+<!-- Sidebar Overlay (mobile) -->
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
 <!-- Sidebar -->
-<nav class="sidebar">
+<nav class="sidebar" id="sidebar">
   <div class="sidebar-logo">
-    <h1>CAPACITR</h1>
+    <img src="brand/primary-logo.png" alt="Capacitr">
     <p>Technical Specification // V1.0</p>
+  </div>
+
+  <!-- Mobile-only nav links -->
+  <div class="mobile-nav-links">
+    <a href="https://capacitr.lol">Home</a>
+    <a href="https://app.capacitr.lol">App</a>
+    <a href="https://x.com/capacitr_xyz" target="_blank" rel="noopener">@capacitr_xyz</a>
   </div>
 
   <div class="nav-section">Overview</div>
@@ -1898,6 +2111,7 @@ score = category_weight × <span class="number">0.4</span>   <span class="commen
 </div>
 
 <script>
+  // Sidebar navigation - scroll spy
   const sections = document.querySelectorAll('.section, .hero');
   const navLinks = document.querySelectorAll('.nav-link');
 
@@ -1921,8 +2135,39 @@ score = category_weight × <span class="number">0.4</span>   <span class="commen
       e.preventDefault();
       const target = document.querySelector(link.getAttribute('href'));
       if (target) target.scrollIntoView({ behavior: 'smooth' });
+      // Close mobile sidebar on nav click
+      closeMobileSidebar();
     });
   });
+
+  // Mobile hamburger menu toggle
+  const hamburgerBtn = document.getElementById('hamburgerBtn');
+  const sidebar = document.getElementById('sidebar');
+  const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+  function openMobileSidebar() {
+    sidebar.classList.add('open');
+    sidebarOverlay.classList.add('active');
+    hamburgerBtn.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeMobileSidebar() {
+    sidebar.classList.remove('open');
+    sidebarOverlay.classList.remove('active');
+    hamburgerBtn.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  hamburgerBtn.addEventListener('click', () => {
+    if (sidebar.classList.contains('open')) {
+      closeMobileSidebar();
+    } else {
+      openMobileSidebar();
+    }
+  });
+
+  sidebarOverlay.addEventListener('click', closeMobileSidebar);
 </script>
 
 </body>
