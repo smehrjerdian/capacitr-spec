@@ -900,6 +900,87 @@
       0%, 100% { opacity: 1; }
       50% { opacity: 0.3; }
     }
+
+    /* ===== QUICK LINKS BAR ===== */
+    .quick-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 48px;
+      padding: 20px 24px;
+      background: rgba(6, 18, 16, 0.7);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+    }
+
+    .quick-links a {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'Space Grotesk', Arial, sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      text-decoration: none;
+      padding: 10px 22px;
+      border-radius: 2px;
+      transition: all 0.15s ease-out;
+    }
+
+    .quick-links .ql-primary {
+      background: var(--orange);
+      color: #fff;
+      border: 1px solid var(--orange);
+    }
+
+    .quick-links .ql-primary:hover {
+      background: #e04a00;
+      border-color: #e04a00;
+    }
+
+    .quick-links .ql-secondary {
+      background: var(--orange-dim);
+      color: var(--orange);
+      border: 1px solid rgba(250, 83, 2, 0.3);
+    }
+
+    .quick-links .ql-secondary:hover {
+      background: var(--orange-mid);
+      border-color: var(--orange);
+    }
+
+    .quick-links .ql-ghost {
+      background: transparent;
+      color: var(--tan-muted);
+      border: 1px solid var(--border);
+    }
+
+    .quick-links .ql-ghost:hover {
+      color: var(--tan);
+      border-color: var(--border-accent);
+      background: var(--tan-dim);
+    }
+
+    .quick-links .ql-arrow {
+      font-size: 13px;
+      transition: transform 0.15s ease-out;
+    }
+
+    .quick-links a:hover .ql-arrow {
+      transform: translateX(2px);
+    }
+
+    @media (max-width: 768px) {
+      .quick-links {
+        flex-direction: column;
+        gap: 8px;
+      }
+      .quick-links a {
+        justify-content: center;
+        width: 100%;
+      }
+    }
   </style>
 </head>
 <body>
@@ -919,6 +1000,8 @@
   <div class="topnav-links">
     <a href="https://capacitr.lol">Home</a>
     <a href="https://app.capacitr.lol">App</a>
+    <a href="https://demo.capacitr.lol">Demo</a>
+    <a href="https://markets.capacitr.lol">Markets</a>
     <a href="https://x.com/capacitr_xyz" target="_blank" rel="noopener" class="twitter-link">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
       @capacitr_xyz
@@ -940,6 +1023,8 @@
   <div class="mobile-nav-links">
     <a href="https://capacitr.lol">Home</a>
     <a href="https://app.capacitr.lol">App</a>
+    <a href="https://demo.capacitr.lol">Demo</a>
+    <a href="https://markets.capacitr.lol">Markets</a>
     <a href="https://x.com/capacitr_xyz" target="_blank" rel="noopener">@capacitr_xyz</a>
   </div>
 
@@ -1000,6 +1085,14 @@
       </div>
     </div>
   </section>
+
+  <!-- QUICK LINKS -->
+  <div class="quick-links">
+    <a href="https://app.capacitr.lol" class="ql-primary">Launch App <span class="ql-arrow">→</span></a>
+    <a href="https://demo.capacitr.lol" class="ql-secondary">View Demo <span class="ql-arrow">→</span></a>
+    <a href="https://markets.capacitr.lol" class="ql-secondary">Market Discovery <span class="ql-arrow">→</span></a>
+    <a href="https://capacitr.lol" class="ql-ghost">Home <span class="ql-arrow">→</span></a>
+  </div>
 
   <!-- THESIS -->
   <section class="section" id="thesis">
