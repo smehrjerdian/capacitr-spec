@@ -9,26 +9,26 @@
     @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
     :root {
-      --orange: #FA5302;
-      --orange-dim: rgba(250, 83, 2, 0.12);
-      --orange-mid: rgba(250, 83, 2, 0.25);
+      --orange: #FF4500;
+      --orange-dim: rgba(255, 69, 0, 0.08);
+      --orange-mid: rgba(255, 69, 0, 0.15);
       --green: #002B1B;
       --green-dim: rgba(0, 43, 27, 0.3);
       --green-bright: #A2FF00;
-      --board-dark: #0a1a14;
-      --card: #0f2218;
-      --card-border: #1a3528;
-      --card-hover: #142e22;
-      --tan: #D6CFC1;
-      --tan-dim: rgba(214, 207, 193, 0.12);
-      --tan-muted: rgba(214, 207, 193, 0.55);
-      --yellow-green: #A2FF00;
-      --yellow-green-dim: rgba(162, 255, 0, 0.08);
+      --board-dark: #D1D7C4;
+      --card: #F5F5DC;
+      --card-border: rgba(0, 43, 27, 0.15);
+      --card-hover: rgba(0, 43, 27, 0.08);
+      --tan: #002B1B;
+      --tan-dim: rgba(0, 43, 27, 0.06);
+      --tan-muted: rgba(0, 43, 27, 0.55);
+      --yellow-green: #FF4500;
+      --yellow-green-dim: rgba(255, 69, 0, 0.06);
       --signal-blue: #D1D7C4;
-      --signal-blue-dim: rgba(209, 215, 196, 0.06);
-      --muted: #7a8672;
-      --border: #1a3528;
-      --border-accent: #2a4a38;
+      --signal-blue-dim: rgba(209, 215, 196, 0.3);
+      --muted: rgba(0, 43, 27, 0.4);
+      --border: rgba(0, 43, 27, 0.15);
+      --border-accent: rgba(0, 43, 27, 0.25);
       --red: #ff5252;
       --red-dim: rgba(255, 82, 82, 0.12);
       --sage: #D1D7C4;
@@ -55,8 +55,8 @@
       left: 0;
       right: 0;
       height: var(--topnav-height);
-      background: #061210;
-      border-bottom: 1px solid var(--border);
+      background: #FF4500;
+      border-bottom: none;
       z-index: 200;
       display: flex;
       align-items: center;
@@ -74,6 +74,7 @@
       height: 22px;
       width: auto;
       display: block;
+      filter: brightness(0) invert(1);
     }
 
     .topnav-links {
@@ -88,7 +89,7 @@
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 1.5px;
-      color: var(--tan-muted);
+      color: rgba(255, 255, 255, 0.8);
       text-decoration: none;
       padding: 6px 12px;
       border-radius: 2px;
@@ -96,26 +97,26 @@
     }
 
     .topnav-links a:hover {
-      color: var(--orange);
-      background: var(--orange-dim);
+      color: #fff;
+      background: rgba(255, 255, 255, 0.2);
     }
 
     .topnav-links .twitter-link {
-      color: var(--sage);
+      color: rgba(255, 255, 255, 0.9);
       display: flex;
       align-items: center;
       gap: 4px;
     }
 
     .topnav-links .twitter-link:hover {
-      color: var(--orange);
+      color: #fff;
     }
 
     /* Hamburger Button */
     .hamburger-btn {
       display: none;
       background: none;
-      border: 1px solid var(--border);
+      border: 1px solid rgba(255, 255, 255, 0.3);
       border-radius: 2px;
       cursor: pointer;
       padding: 6px 8px;
@@ -130,7 +131,7 @@
       display: block;
       width: 18px;
       height: 2px;
-      background: var(--orange);
+      background: #fff;
       border-radius: 1px;
       transition: all 0.2s ease-out;
     }
@@ -153,7 +154,7 @@
       left: 0;
       right: 0;
       bottom: 0;
-      background: rgba(0, 0, 0, 0.5);
+      background: rgba(0, 43, 27, 0.5);
       z-index: 140;
     }
 
@@ -168,8 +169,8 @@
       top: var(--topnav-height);
       width: 260px;
       height: calc(100vh - var(--topnav-height));
-      background: #061210;
-      border-right: 1px solid var(--border);
+      background: #002B1B;
+      border-right: none;
       overflow-y: auto;
       z-index: 150;
       padding: 0;
@@ -178,7 +179,7 @@
 
     .sidebar-logo {
       padding: 20px 16px 16px;
-      border-bottom: 1px solid var(--border);
+      border-bottom: 1px solid rgba(162, 255, 0, 0.1);
     }
 
     .sidebar-logo img {
@@ -191,7 +192,7 @@
     .sidebar-logo p {
       font-family: 'Space Grotesk', Arial, sans-serif;
       font-size: 9px;
-      color: var(--muted);
+      color: rgba(162, 255, 0, 0.4);
       margin-top: 8px;
       text-transform: uppercase;
       letter-spacing: 2px;
@@ -210,7 +211,7 @@
     .nav-link {
       display: block;
       padding: 7px 20px;
-      color: var(--muted);
+      color: rgba(162, 255, 0, 0.5);
       text-decoration: none;
       font-family: 'Space Grotesk', Arial, sans-serif;
       font-size: 12px;
@@ -222,15 +223,15 @@
     }
 
     .nav-link:hover {
-      color: var(--tan);
-      background: var(--orange-dim);
-      border-left-color: var(--orange);
+      color: #A2FF00;
+      background: rgba(162, 255, 0, 0.1);
+      border-left-color: #A2FF00;
     }
 
     .nav-link.active {
-      color: var(--orange);
-      background: var(--orange-dim);
-      border-left-color: var(--orange);
+      color: #A2FF00;
+      background: rgba(162, 255, 0, 0.1);
+      border-left-color: #FF4500;
       font-weight: 600;
     }
 
@@ -271,7 +272,7 @@
       font-weight: 700;
       line-height: 1.1;
       letter-spacing: -0.5px;
-      color: white;
+      color: #002B1B;
       text-transform: uppercase;
       margin-bottom: 16px;
     }
@@ -348,7 +349,7 @@
       font-weight: 700;
       letter-spacing: 1px;
       text-transform: uppercase;
-      color: white;
+      color: #002B1B;
     }
 
     .section h3 {
@@ -419,7 +420,7 @@
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.5px;
-      color: white;
+      color: #002B1B;
     }
 
     .card-subtitle {
@@ -453,11 +454,11 @@
       letter-spacing: 0.5px;
     }
     .tag-orange { background: var(--orange-dim); color: var(--orange); border: 1px solid var(--orange-mid); }
-    .tag-green { background: var(--green-dim); color: var(--green-bright); border: 1px solid rgba(0,230,118,0.2); }
-    .tag-tan { background: var(--tan-dim); color: var(--tan); border: 1px solid rgba(217,208,192,0.2); }
+    .tag-green { background: rgba(0, 43, 27, 0.08); color: #002B1B; border: 1px solid rgba(0,43,27,0.2); }
+    .tag-tan { background: rgba(0, 43, 27, 0.06); color: #002B1B; border: 1px solid rgba(0,43,27,0.15); }
     .tag-red { background: var(--red-dim); color: var(--red); border: 1px solid rgba(255,82,82,0.2); }
     .tag-yellow { background: var(--yellow-green-dim); color: var(--yellow-green); border: 1px solid rgba(203,255,2,0.2); }
-    .tag-blue { background: var(--signal-blue-dim); color: var(--signal-blue); border: 1px solid rgba(241,249,255,0.15); }
+    .tag-blue { background: rgba(0, 43, 27, 0.06); color: #002B1B; border: 1px solid rgba(0,43,27,0.15); }
 
     /* ===== TABLES ===== */
     .table-wrap {
@@ -474,7 +475,7 @@
     }
 
     thead {
-      background: #061210;
+      background: rgba(0, 43, 27, 0.05);
     }
 
     th {
@@ -510,8 +511,8 @@
 
     /* ===== CODE BLOCKS ===== */
     .code-block {
-      background: #061210;
-      border: 1px solid var(--border);
+      background: #002B1B;
+      border: 1px solid rgba(0, 43, 27, 0.2);
       border-radius: 3px;
       padding: 20px;
       margin: 16px 0;
@@ -519,19 +520,19 @@
       font-family: 'JetBrains Mono', monospace;
       font-size: 12px;
       line-height: 1.8;
-      color: var(--tan-muted);
+      color: rgba(162, 255, 0, 0.7);
     }
 
-    .code-block .keyword { color: var(--orange); }
-    .code-block .string { color: var(--green-bright); }
-    .code-block .comment { color: var(--muted); font-style: italic; }
-    .code-block .type { color: var(--yellow-green); }
-    .code-block .number { color: var(--orange); }
+    .code-block .keyword { color: #FF4500; }
+    .code-block .string { color: #A2FF00; }
+    .code-block .comment { color: rgba(162, 255, 0, 0.4); font-style: italic; }
+    .code-block .type { color: #A2FF00; }
+    .code-block .number { color: #FF4500; }
 
     /* ===== ARCHITECTURE DIAGRAM ===== */
     .arch-diagram {
-      background: #061210;
-      border: 1px solid var(--border);
+      background: #002B1B;
+      border: 1px solid rgba(0, 43, 27, 0.2);
       border-radius: 3px;
       padding: 32px;
       margin: 24px 0;
@@ -569,14 +570,14 @@
       opacity: 0.7;
     }
 
-    .arch-client { background: transparent; border: 1px solid var(--orange); color: var(--orange); }
-    .arch-api { background: transparent; border: 1px solid var(--green-bright); color: var(--green-bright); }
-    .arch-service { background: transparent; border: 1px solid var(--tan); color: var(--tan); }
-    .arch-external { background: transparent; border: 1px solid var(--yellow-green); color: var(--yellow-green); }
-    .arch-data { background: transparent; border: 1px solid var(--orange); color: var(--orange); }
+    .arch-client { background: transparent; border: 1px solid #FF4500; color: #FF4500; }
+    .arch-api { background: transparent; border: 1px solid #A2FF00; color: #A2FF00; }
+    .arch-service { background: transparent; border: 1px solid #D6CFC1; color: #D6CFC1; }
+    .arch-external { background: transparent; border: 1px solid #A2FF00; color: #A2FF00; }
+    .arch-data { background: transparent; border: 1px solid #FF4500; color: #FF4500; }
 
     .arch-arrow {
-      color: var(--muted);
+      color: rgba(162, 255, 0, 0.4);
       font-family: 'JetBrains Mono', monospace;
       font-size: 16px;
       margin: 6px 0;
@@ -626,7 +627,7 @@
     .flow-content strong {
       font-family: 'Space Grotesk', Arial, sans-serif;
       font-size: 13px;
-      color: white;
+      color: #002B1B;
       text-transform: uppercase;
       letter-spacing: 0.5px;
     }
@@ -666,7 +667,7 @@
       font-family: 'Space Grotesk', Arial, sans-serif;
       font-size: 10px;
       font-weight: 700;
-      color: white;
+      color: #002B1B;
       text-transform: uppercase;
       letter-spacing: 0.5px;
     }
@@ -779,7 +780,7 @@
       font-size: 15px;
       font-weight: 700;
       margin-bottom: 8px;
-      color: white;
+      color: #002B1B;
       text-transform: uppercase;
       letter-spacing: 0.5px;
     }
@@ -812,9 +813,9 @@
 
     /* ===== SCROLLBAR ===== */
     ::-webkit-scrollbar { width: 4px; height: 4px; }
-    ::-webkit-scrollbar-track { background: transparent; }
-    ::-webkit-scrollbar-thumb { background: var(--border-accent); border-radius: 2px; }
-    ::-webkit-scrollbar-thumb:hover { background: var(--muted); }
+    ::-webkit-scrollbar-track { background: rgba(209, 215, 196, 0.5); }
+    ::-webkit-scrollbar-thumb { background: rgba(0, 43, 27, 0.3); border-radius: 2px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(0, 43, 27, 0.5); }
 
     /* ===== RESPONSIVE ===== */
     @media (max-width: 900px) {
@@ -865,14 +866,14 @@
         font-weight: 600;
         text-transform: uppercase;
         letter-spacing: 1.5px;
-        color: var(--tan-muted);
+        color: rgba(162, 255, 0, 0.5);
         text-decoration: none;
         padding: 8px 0;
         transition: color 0.15s ease-out;
       }
 
       .mobile-nav-links a:hover {
-        color: var(--orange);
+        color: #A2FF00;
       }
 
       .main { margin-left: 0; padding: 24px; padding-top: calc(var(--topnav-height) + 24px); }
@@ -908,8 +909,8 @@
       gap: 10px;
       margin-bottom: 48px;
       padding: 20px 24px;
-      background: rgba(6, 18, 16, 0.7);
-      border: 1px solid var(--border);
+      background: #F5F5DC;
+      border: 1px solid rgba(0, 43, 27, 0.15);
       border-radius: 2px;
     }
 
@@ -1104,7 +1105,7 @@
     <div class="card" style="border-color: var(--orange); padding: 32px;">
       <h3 style="margin-top: 0;">The Problem</h3>
       <p>Markets exist everywhere — prediction markets, perpetual futures, options — but finding the right market at the right time is still manual, fragmented work. A trader who follows AI policy news has to manually search Polymarket for relevant prediction markets, check HyperLiquid for NVIDIA perps, and scan Deribit for options plays.</p>
-      <p>The information that drives trading decisions — trending topics, breaking news, social sentiment, expert chatter — lives in completely different places than the markets themselves. <strong style="color: white;">Nobody connects them.</strong></p>
+      <p>The information that drives trading decisions — trending topics, breaking news, social sentiment, expert chatter — lives in completely different places than the markets themselves. <strong style="color: #002B1B;">Nobody connects them.</strong></p>
     </div>
 
     <div class="card" style="margin-top: 16px; padding: 32px;">
@@ -1673,7 +1674,7 @@ GET /v2/farcaster/cast/search?q={query}   <span class="comment">// search casts<
           <div class="card-subtitle">SOCIAL GRAPH NOT INCLUDED</div>
         </div>
       </div>
-      <p>Privy returns <strong style="color: white;">identity</strong> (username, pfp) but <strong style="color: var(--red);">NOT social graph</strong> (followers, interests, liked posts). Workaround:</p>
+      <p>Privy returns <strong style="color: #002B1B;">identity</strong> (username, pfp) but <strong style="color: var(--red);">NOT social graph</strong> (followers, interests, liked posts). Workaround:</p>
       <p style="margin-top:8px;">• <strong style="color: var(--orange);">Farcaster:</strong> Neynar API with FID → follower graph + activity</p>
       <p>• <strong style="color: var(--orange);">X:</strong> Bearer token → public timeline (limited on Basic)</p>
     </div>
