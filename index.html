@@ -15,7 +15,8 @@
   <meta name="twitter:title" content="CAPACITR — Technical Specification">
   <meta name="twitter:description" content="Every headline has a market, and every opinion deserves a position.">
   <meta name="twitter:image" content="https://app.capacitr.lol/brand/og-splash.png">
-  <link rel="icon" href="https://app.capacitr.lol/brand/favicon.png" type="image/png">
+  <link rel="icon" href="brand/favicon.png" type="image/png">
+  <link rel="shortcut icon" href="brand/favicon.png">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
@@ -86,6 +87,14 @@
       width: auto;
       display: block;
       filter: brightness(0) invert(1);
+    }
+
+    .topnav-badge {
+      height: 28px;
+      width: 28px;
+      display: block;
+      filter: brightness(0) invert(1);
+      flex-shrink: 0;
     }
 
     .topnav-links {
@@ -1005,7 +1014,8 @@
       <span></span>
       <span></span>
     </button>
-    <a href="https://capacitr.lol" class="topnav-wordmark-wrap">
+    <a href="https://capacitr.lol" class="topnav-wordmark-wrap" style="display:flex;align-items:center;gap:8px;">
+      <img src="brand/badge.png" alt="C" class="topnav-badge">
       <img src="brand/wordmark.png" alt="Capacitr" class="topnav-wordmark">
     </a>
   </div>
@@ -1028,7 +1038,7 @@
 <nav class="sidebar" id="sidebar">
   <div class="sidebar-logo">
     <img src="brand/primary-logo.png" alt="Capacitr">
-    <p>Technical Specification // V2.0</p>
+    <p>Technical Specification // V1.0</p>
   </div>
 
   <!-- Mobile-only nav links -->
@@ -1047,27 +1057,24 @@
 
   <div class="nav-section">Data Sources</div>
   <a class="nav-link" href="#polymarket">Polymarket</a>
+  <a class="nav-link" href="#quotient">Quotient Intelligence</a>
   <a class="nav-link" href="#hyperliquid">HyperLiquid</a>
   <a class="nav-link" href="#options">Options</a>
   <a class="nav-link" href="#twitter">X / Twitter</a>
   <a class="nav-link" href="#news">News & Scraping</a>
   <a class="nav-link" href="#trends">Trend Sources</a>
   <a class="nav-link" href="#privy">Privy Auth</a>
-  <a class="nav-link" href="#quotient">Quotient Intelligence</a>
 
   <div class="nav-section">Backend</div>
   <a class="nav-link" href="#database">Database Schema</a>
   <a class="nav-link" href="#endpoints">API Endpoints</a>
-  <a class="nav-link" href="#jobs">Background Jobs</a>
+  <a class="nav-link" href="#jobs">Trending Feed Pipeline</a>
 
   <div class="nav-section">Intelligence</div>
   <a class="nav-link" href="#llm">LLM Strategy</a>
   <a class="nav-link" href="#matching">Matching Algorithm</a>
 
-  <div class="nav-section">Trade Execution</div>
-  <a class="nav-link" href="#onramp">Fiat Onramp</a>
-  <a class="nav-link" href="#execution">Order Routing</a>
-  <a class="nav-link" href="#builders">Builder Attribution</a>
+  <div class="nav-section">Business</div>
   <a class="nav-link" href="#monetization">Monetization</a>
 
   <div class="nav-section">Deployment</div>
@@ -1082,7 +1089,7 @@
 
   <!-- HERO -->
   <section class="hero" id="hero">
-    <div class="hero-badge">SPEC // V2.0 // SYSTEM INITIALIZED</div>
+    <div class="hero-badge">SPEC // V1.0 // SYSTEM INITIALIZED</div>
  <h1>Trend-to-Trade <span>Signal Feed</span></h1>
   <p style="font-family: 'Space Grotesk', Arial, sans-serif; font-size: 18px; font-weight: 400; font-style: italic; color: var(--orange); margin-bottom: 12px;">Every headline has a market, and every opinion deserves a position.</p>
   <p>Absorb signals from across the internet — trends, news, social chatter — charge them with intelligence, and discharge matched predictions and trades when you need them.</p>
@@ -1093,11 +1100,11 @@
       </div>
       <div class="hero-stat">
         <div class="hero-stat-value">03</div>
-        <div class="hero-stat-label">Market Types</div>
+        <div class="hero-stat-label">Market Types + Q Intelligence</div>
       </div>
       <div class="hero-stat">
-        <div class="hero-stat-value">05</div>
-        <div class="hero-stat-label">Background Jobs</div>
+        <div class="hero-stat-value" style="font-size: 20px;">LIVE</div>
+        <div class="hero-stat-label">Feed Pipeline</div>
       </div>
       <div class="hero-stat">
         <div class="hero-stat-value">10</div>
@@ -1285,7 +1292,6 @@
         <div class="arch-box arch-service">📡 Poller<small>BullMQ</small></div>
         <div class="arch-box arch-service">🔍 Scraper<small>Jina / X API</small></div>
         <div class="arch-box arch-service">🎯 Matcher<small>LLM + Search</small></div>
-        <div class="arch-box arch-service">💰 Onramp<small>Stripe Crypto</small></div>
       </div>
       <div class="arch-arrow">▼</div>
       <div class="arch-row">
@@ -1300,8 +1306,6 @@
         <div class="arch-box arch-external">📊 Polymarket</div>
         <div class="arch-box arch-external">📈 HyperLiquid</div>
         <div class="arch-box arch-external">🔮 Farcaster</div>
-        <div class="arch-box arch-external">🧠 Quotient</div>
-        <div class="arch-box arch-external">💳 Stripe</div>
       </div>
     </div>
 
@@ -1312,14 +1316,12 @@
         <tbody>
           <tr><td>Mobile Client</td><td><code>React Native (Expo)</code></td><td>Cross-platform, Privy RN SDK support</td></tr>
           <tr><td>Web Client</td><td><code>Next.js</code></td><td>Prototype-first, SSR for SEO</td></tr>
-          <tr><td>API Server</td><td><code>Next.js App Router + API Routes</code></td><td>Full-stack React framework, SSR + API in one</td></tr>
+          <tr><td>API Server</td><td><code>Node.js + Hono</code></td><td>Fast, typed, edge-compatible</td></tr>
           <tr><td>Database</td><td><code>PostgreSQL (Supabase)</code></td><td>Managed, real-time subscriptions</td></tr>
           <tr><td>Cache / Queue</td><td><code>Redis (Upstash) + BullMQ</code></td><td>Serverless Redis, reliable job queues</td></tr>
-          <tr><td>LLM</td><td><code>GPT-4o-mini via OpenRouter</code></td><td>Best cost/quality for classification</td></tr>
+          <tr><td>LLM</td><td><code>GPT-4o / 4o-mini</code></td><td>Best cost/quality for classification</td></tr>
           <tr><td>Image Gen</td><td><code>DALL-E 3 / Flux</code></td><td>Editorial illustrations for feed cards</td></tr>
-          <tr><td>Market Intelligence</td><td><code>Quotient API</code></td><td>AI-powered mispricing detection for prediction markets</td></tr>
-          <tr><td>Fiat Onramp</td><td><code>Stripe Embedded Components</code></td><td>Native fiat-to-USDC, progressive KYC, one-click return purchases</td></tr>
-          <tr><td>Hosting</td><td><code>Vercel (monorepo)</code></td><td>Unified deployment for web + API</td></tr>
+          <tr><td>Hosting</td><td><code>Vercel + Fly.io</code></td><td>Vercel for web, Fly for API workers</td></tr>
         </tbody>
       </table>
     </div>
@@ -1374,6 +1376,81 @@
           <tr><td><code>GET /oi?market={CID}</code></td><td>Open interest</td></tr>
         </tbody>
       </table>
+    </div>
+  </section>
+
+  <!-- QUOTIENT INTELLIGENCE -->
+  <section class="section" id="quotient">
+    <div class="section-header">
+      <div class="section-number">Q</div>
+      <h2>Quotient Intelligence</h2>
+    </div>
+    <p><span class="live-dot"></span>AI-computed fair odds for Polymarket markets — <code>q-api.quotient.social</code> · Auth: <code>x-quotient-api-key</code> header</p>
+
+    <h3>What It Does</h3>
+    <div class="card" style="border-color: var(--orange); padding: 32px;">
+      <p>Quotient provides AI-computed fair odds for Polymarket markets, identifying mispriced opportunities where the market price diverges from the model's estimated probability. Markets with <strong style="color: var(--orange);">&gt;5% edge</strong> get orange badges showing the spread, direction, and a BLUF (Bottom Line Up Front) analysis.</p>
+      <div style="margin-top: 16px; background: var(--orange-dim); border: 1px solid var(--orange); border-radius: 2px; padding: 12px 16px; display: inline-block;">
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 600; color: var(--orange); text-transform: uppercase; letter-spacing: 1px;">32% EDGE — BUY NO</span>
+      </div>
+    </div>
+
+    <h3>API Endpoints</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Endpoint</th><th>Purpose</th><th>Key Params</th></tr></thead>
+        <tbody>
+          <tr><td><code>GET /api/v1/markets/mispriced</code></td><td>Batch mispriced markets with spread, direction, BLUF analysis</td><td>—</td></tr>
+          <tr><td><code>GET /api/v1/markets/lookup</code></td><td>Lookup specific market by slug or condition_id</td><td>slug, condition_id</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Response Fields</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>question</code></td><td>string</td><td>Market question text</td></tr>
+          <tr><td><code>slug</code></td><td>string</td><td>Polymarket market slug</td></tr>
+          <tr><td><code>quotient_odds</code></td><td>number</td><td>AI-computed fair probability</td></tr>
+          <tr><td><code>market_odds</code></td><td>number</td><td>Current Polymarket price</td></tr>
+          <tr><td><code>spread</code></td><td>number</td><td>Absolute difference between Q odds and market odds</td></tr>
+          <tr><td><code>spread_direction</code></td><td>string</td><td><code>q_higher</code> or <code>q_lower</code></td></tr>
+          <tr><td><code>bluf</code></td><td>string</td><td>Bottom Line Up Front — reasoning summary</td></tr>
+          <tr><td><code>signal_count</code></td><td>number</td><td>Number of signals informing the estimate</td></tr>
+          <tr><td><code>volume_24h</code></td><td>number</td><td>24-hour trading volume</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Integration Flow</h3>
+    <div class="flow">
+      <div class="flow-step">
+        <div class="flow-line"><div class="flow-dot"></div><div class="flow-connector"></div></div>
+        <div class="flow-content"><strong>01. Fetch Mispriced</strong><p>Per-query fetch from <code>/api/v1/markets/mispriced</code> with API key header</p></div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-line"><div class="flow-dot"></div><div class="flow-connector"></div></div>
+        <div class="flow-content"><strong>02. Keyword Match</strong><p>Match mispriced markets to user search/feed topics via keyword overlap</p></div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-line"><div class="flow-dot"></div><div class="flow-connector"></div></div>
+        <div class="flow-content"><strong>03. Merge & Sort</strong><p>Merge into predictions array, sorted by spread descending. Markets with &gt;5% edge get orange badges</p></div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-line"><div class="flow-dot"></div></div>
+        <div class="flow-content"><strong>04. Display Edge</strong><p>Badge shows <code>"32% EDGE — BUY NO"</code> with BLUF analysis text</p></div>
+      </div>
+    </div>
+
+    <h3>Used In</h3>
+    <div style="margin-top: 12px; display: flex; flex-wrap: wrap; gap: 6px;">
+      <span class="tag tag-orange">Market Discovery /discover</span>
+      <span class="tag tag-orange">In-App Markets /markets</span>
+      <span class="tag tag-orange">Feed Enrichment</span>
+      <span class="tag tag-tan">Standalone Lookup by Slug</span>
+      <span class="tag tag-tan">Agent Tool: getMispriced</span>
     </div>
   </section>
 
@@ -1633,22 +1710,6 @@
       </table>
     </div>
 
-    <h3>Google Trends — Trending Now & 30-Day Signals</h3>
-    <div class="card" style="border-color: var(--orange);">
-      <p>Primary trend signal source. Two complementary data feeds:</p>
-      <div style="margin-top: 12px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
-        <div style="border: 1px solid var(--orange); border-radius: 2px; padding: 12px;">
-          <div style="font-family: 'Space Grotesk', Arial, sans-serif; font-size: 10px; font-weight: 700; color: var(--orange); text-transform: uppercase; letter-spacing: 1px;">Trending Now</div>
-          <p style="font-size: 12px; margin: 4px 0 0;">Real-time trending searches via SerpAPI. Breaking stories, viral moments, sudden spikes. High velocity, short half-life.</p>
-        </div>
-        <div style="border: 1px solid var(--orange); border-radius: 2px; padding: 12px;">
-          <div style="font-family: 'Space Grotesk', Arial, sans-serif; font-size: 10px; font-weight: 700; color: var(--orange); text-transform: uppercase; letter-spacing: 1px;">Trending 30 Days</div>
-          <p style="font-size: 12px; margin: 4px 0 0;">30-day sustained interest signals. Captures narratives with staying power — policy debates, economic shifts, seasonal events. Higher signal-to-noise for market matching.</p>
-        </div>
-      </div>
-      <p style="margin-top: 12px;">The 30-day window is critical for prediction market matching. Polymarket questions often resolve weeks to months out — a topic trending for 30 days is more likely to have active, liquid markets than a flash-in-the-pan viral moment.</p>
-    </div>
-
     <h3>Farcaster via Neynar</h3>
     <div class="code-block">
 GET /v2/farcaster/feed/trending          <span class="comment">// trending casts</span>
@@ -1720,61 +1781,12 @@ GET /v2/farcaster/cast/search?q={query}   <span class="comment">// search casts<
     </div>
   </section>
 
-<!-- QUOTIENT INTELLIGENCE -->
-<section class="section" id="quotient">
-  <div class="section-header">
-    <div class="section-number">10</div>
-    <h2>Quotient Intelligence</h2>
-  </div>
-  <p><span class="live-dot"></span>Market mispricing detection — identifies prediction markets where odds diverge from Quotient's AI-estimated fair value. Integrated into both the standalone discovery tool and the in-app markets view.</p>
-
-  <h3>API Integration</h3>
-  <p><code>intelligence.quotient.co/api</code> · <span style="color: var(--orange);">API Key Required</span></p>
-  <div class="table-wrap">
-    <table>
-      <thead><tr><th>Endpoint</th><th>Purpose</th><th>Returns</th></tr></thead>
-      <tbody>
-        <tr><td><code>GET /markets/mispriced</code></td><td>All markets with significant edge</td><td>Array of markets with qOdds, mktOdds, slug</td></tr>
-        <tr><td><code>GET /markets/lookup?slug={slug}</code></td><td>Lookup specific market by Polymarket slug</td><td>Single market with mispricing data</td></tr>
-      </tbody>
-    </table>
-  </div>
-
-  <h3>Edge Calculation</h3>
-  <div class="code-block">
-<span class="comment">// Quotient provides AI-estimated odds (qOdds) vs market odds (mktOdds)</span>
-<span class="keyword">const</span> edge = Math.abs(qOdds - mktOdds)
-
-<span class="comment">// Markets with >5% edge are flagged as mispriced</span>
-<span class="comment">// Direction: qOdds > mktOdds → "BUY YES", qOdds < mktOdds → "BUY NO"</span>
-<span class="keyword">if</span> (edge > <span class="number">0.05</span>) {
-  badge = <span class="string">`⚡ ${(edge * 100).toFixed(0)}% EDGE — ${direction}`</span>
-}
-  </div>
-
-  <h3>Feed & Discovery Integration</h3>
-  <div class="card" style="border-color: var(--orange);">
-    <p>Quotient data is merged into Polymarket search results and feed predictions at two levels:</p>
-    <div style="margin-top: 16px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
-      <div style="border: 1px solid var(--border); border-radius: 2px; padding: 12px;">
-        <div style="font-family: 'Space Grotesk', Arial, sans-serif; font-size: 10px; font-weight: 700; color: var(--orange); text-transform: uppercase; letter-spacing: 1px;">Discovery / Markets</div>
-        <p style="font-size: 12px; margin: 4px 0 0;">Search results enriched with edge badges. Mispriced markets keyword-matched against search terms and sorted to top by edge magnitude.</p>
-      </div>
-      <div style="border: 1px solid var(--border); border-radius: 2px; padding: 12px;">
-        <div style="font-family: 'Space Grotesk', Arial, sans-serif; font-size: 10px; font-weight: 700; color: var(--orange); text-transform: uppercase; letter-spacing: 1px;">Feed Stories</div>
-        <p style="font-size: 12px; margin: 4px 0 0;">Feed API merges keyword-matched mispriced markets into each story's prediction array. High-edge items surface with orange "EDGE" badges and BLUF analysis.</p>
-      </div>
-    </div>
-    <p style="margin-top: 16px;"><strong style="color: var(--orange);">Keyword Matching:</strong> Multi-word queries are split into individual tokens (>3 chars). Each token is matched independently against Quotient market questions using case-insensitive substring search. This ensures "Trump Hormuz" finds both Trump markets AND Strait of Hormuz markets.</p>
-  </div>
-</section>
-
   <div class="hazard-stripe"></div>
 
   <!-- DATABASE -->
   <section class="section" id="database">
     <div class="section-header">
-      <div class="section-number">11</div>
+      <div class="section-number">10</div>
       <h2>Database Schema</h2>
     </div>
 
@@ -1844,7 +1856,7 @@ GET /v2/farcaster/cast/search?q={query}   <span class="comment">// search casts<
   <!-- ENDPOINTS -->
   <section class="section" id="endpoints">
     <div class="section-header">
-      <div class="section-number">12</div>
+      <div class="section-number">11</div>
       <h2>API Endpoints</h2>
     </div>
 
@@ -1901,7 +1913,7 @@ GET /v2/farcaster/cast/search?q={query}   <span class="comment">// search casts<
   <!-- BACKGROUND JOBS -->
   <section class="section" id="jobs">
     <div class="section-header">
-      <div class="section-number">13</div>
+      <div class="section-number">12</div>
       <h2>Background Jobs</h2>
     </div>
     <p>5 pipelines. BullMQ on Redis. Continuous charge cycle.</p>
@@ -1965,7 +1977,7 @@ GET /v2/farcaster/cast/search?q={query}   <span class="comment">// search casts<
   <!-- LLM -->
   <section class="section" id="llm">
     <div class="section-header">
-      <div class="section-number">14</div>
+      <div class="section-number">13</div>
       <h2>LLM Strategy</h2>
     </div>
 
@@ -1994,7 +2006,7 @@ GET /v2/farcaster/cast/search?q={query}   <span class="comment">// search casts<
   <!-- MATCHING -->
   <section class="section" id="matching">
     <div class="section-header">
-      <div class="section-number">15</div>
+      <div class="section-number">14</div>
       <h2>Matching Algorithm</h2>
     </div>
 
@@ -2045,258 +2057,10 @@ score = category_weight × <span class="number">0.4</span>   <span class="commen
     </div>
   </section>
 
-<div class="hazard-stripe"></div>
-
-<!-- FIAT ONRAMP -->
-<section class="section" id="onramp">
-  <div class="section-header">
-    <div class="section-number">16</div>
-    <h2>Fiat Onramp — Stripe Crypto</h2>
-  </div>
-  <p>Zero-friction fiat-to-stablecoin conversion using Stripe's embedded crypto onramp. Users buy USDC directly within Capacitr — no external exchange, no seed phrases, no bridge complexity.</p>
-
-  <div class="card" style="border-color: var(--orange); margin-top: 16px;">
-    <h3 style="margin-top: 0;">Integration Status</h3>
-    <p><strong style="color: var(--orange);">Currently:</strong> Stripe Embedded Components Onramp is in Private Preview for React Native. React web SDK is on the roadmap.</p>
-    <p><strong style="color: #002B1B;">Plan:</strong> Ship with React Native SDK first (aligns with Phase 04 mobile app). Migrate to React web SDK when available for the web app.</p>
-  </div>
-
-  <h3>User Flow</h3>
-  <div class="flow" style="margin-top: 16px;">
-    <div class="flow-step">
-      <div class="flow-line"><div class="flow-dot"></div><div class="flow-connector"></div></div>
-      <div class="flow-content"><strong>01. Initiate Purchase</strong><p>User taps "Fund Wallet" from any market card. Stripe onramp sheet opens natively.</p></div>
-    </div>
-    <div class="flow-step">
-      <div class="flow-line"><div class="flow-dot"></div><div class="flow-connector"></div></div>
-      <div class="flow-content"><strong>02. KYC (Min Tier)</strong><p>L0: Name, phone, email, address. Enough for initial purchases. Progressive KYC — L1/L2 only when limits hit.</p></div>
-    </div>
-    <div class="flow-step">
-      <div class="flow-line"><div class="flow-dot"></div><div class="flow-connector"></div></div>
-      <div class="flow-content"><strong>03. Link Payment</strong><p>Stripe Link handles card/bank. Returning users get one-click checkout. Payment tokens saved.</p></div>
-    </div>
-    <div class="flow-step">
-      <div class="flow-line"><div class="flow-dot"></div></div>
-      <div class="flow-content"><strong>04. USDC Delivered</strong><p>Stripe converts fiat → USDC and delivers to user's Privy embedded wallet on Polygon. Ready to trade.</p></div>
-    </div>
-  </div>
-
-  <h3>KYC Tier System</h3>
-  <div class="table-wrap">
-    <table>
-      <thead><tr><th>Tier</th><th>Required Data</th><th>Limit</th><th>UX Impact</th></tr></thead>
-      <tbody>
-        <tr><td><span class="tag tag-orange">L0</span></td><td>Name, phone, email, address</td><td>Low</td><td>Minimal friction — inline form</td></tr>
-        <tr><td><span class="tag tag-yellow">L1</span></td><td>L0 + DOB, SSN</td><td>Medium</td><td>Additional fields, async verification</td></tr>
-        <tr><td><span class="tag tag-red">L2</span></td><td>L1 + Photo ID, selfie</td><td>High</td><td>Stripe-hosted verification flow</td></tr>
-      </tbody>
-    </table>
-  </div>
-  <div class="card" style="margin-top: 12px;">
-    <p><strong style="color: var(--orange);">Strategy:</strong> Default to L0 (minimum KYC). Most casual traders won't hit limits. Progressive verification means users only face friction when they want to trade larger amounts — by which point they're already engaged.</p>
-  </div>
-</section>
-
-<!-- ORDER ROUTING & EXECUTION -->
-<section class="section" id="execution">
-  <div class="section-header">
-    <div class="section-number">17</div>
-    <h2>Order Routing & Execution</h2>
-  </div>
-  <p>Capacitr handles all bridging, chain management, and order execution. Users see "Buy Yes at 42¢" — we handle the 5 steps behind it.</p>
-
-  <h3>Execution Pipeline</h3>
-  <div class="pipeline">
-    <div class="pipeline-stage">
-      <div class="pipeline-box"><div class="emoji">💳</div><div class="label">Fund</div><div class="desc">Stripe → USDC</div></div>
-    </div>
-    <div class="pipeline-stage">
-      <div class="pipeline-box"><div class="emoji">🌉</div><div class="label">Bridge</div><div class="desc">Polygon → Target</div></div>
-    </div>
-    <div class="pipeline-stage">
-      <div class="pipeline-box"><div class="emoji">📝</div><div class="label">Sign</div><div class="desc">Privy wallet</div></div>
-    </div>
-    <div class="pipeline-stage">
-      <div class="pipeline-box"><div class="emoji">⚡</div><div class="label">Route</div><div class="desc">CLOB / API</div></div>
-    </div>
-    <div class="pipeline-stage">
-      <div class="pipeline-box"><div class="emoji">✅</div><div class="label">Confirm</div><div class="desc">On-chain</div></div>
-    </div>
-  </div>
-
-  <h3>Per-Venue Execution</h3>
-  <div class="grid-3" style="margin-top: 12px;">
-    <div class="card" style="border-color: var(--orange);">
-      <div class="card-header">
-        <div class="card-icon" style="background: var(--orange-dim); border-color: var(--orange);">📊</div>
-        <div>
-          <div class="card-title">Polymarket</div>
-          <div class="card-subtitle">Polygon // CLOB</div>
-        </div>
-      </div>
-      <p>USDC.e on Polygon. Orders via CLOB API with Builder attribution headers. Gasless via Polymarket relayer (Safe wallet). Privy + Safe integration path documented.</p>
-      <div style="margin-top: 8px;">
-        <span class="tag tag-orange">Gasless</span>
-        <span class="tag tag-orange">Builder SDK</span>
-      </div>
-    </div>
-    <div class="card" style="border-color: var(--orange);">
-      <div class="card-header">
-        <div class="card-icon" style="background: var(--orange-dim); border-color: var(--orange);">📈</div>
-        <div>
-          <div class="card-title">HyperLiquid</div>
-          <div class="card-subtitle">Arbitrum // L1</div>
-        </div>
-      </div>
-      <p>USDC on Arbitrum bridged to HyperLiquid L1. Orders via exchange API with builder code parameter. User approves max builder fee once, then all orders include attribution.</p>
-      <div style="margin-top: 8px;">
-        <span class="tag tag-orange">Builder Codes</span>
-        <span class="tag tag-orange">Up to 50x Leverage</span>
-      </div>
-    </div>
-    <div class="card" style="border-color: var(--orange);">
-      <div class="card-header">
-        <div class="card-icon" style="background: var(--orange-dim); border-color: var(--orange);">🔮</div>
-        <div>
-          <div class="card-title">Deribit</div>
-          <div class="card-subtitle">CEX // Options</div>
-        </div>
-      </div>
-      <p>BTC/ETH options with ~90% of crypto options volume. REST + WebSocket API. Sub-account model for managed execution. Portfolio margin available.</p>
-      <div style="margin-top: 8px;">
-        <span class="tag tag-orange">Options + Futures</span>
-        <span class="tag tag-orange">API v2</span>
-      </div>
-    </div>
-  </div>
-
-  <h3>Wallet Architecture</h3>
-  <div class="code-block">
-<span class="comment">// Privy embedded wallet (user-owned, non-custodial)</span>
-<span class="comment">// → Deploys a Safe smart wallet on Polygon (for Polymarket)</span>
-<span class="comment">// → Signs HyperLiquid orders via agent wallet delegation</span>
-<span class="comment">// → Deribit: sub-account API keys managed server-side</span>
-
-<span class="keyword">User</span> → Privy Embedded Wallet (Polygon)
-         ├── <span class="string">Polymarket:</span> Safe wallet via Builder Relayer (gasless)
-         ├── <span class="string">HyperLiquid:</span> Bridge to HL L1 → trade via builder code
-         └── <span class="string">Deribit:</span> Deposit via API → managed sub-account
-  </div>
-</section>
-
-<!-- BUILDER ATTRIBUTION -->
-<section class="section" id="builders">
-  <div class="section-header">
-    <div class="section-number">18</div>
-    <h2>Builder Attribution</h2>
-  </div>
-  <p>Every trade routed through Capacitr carries builder attribution. This enables gasless transactions, volume tracking, and revenue sharing.</p>
-
-  <h3>Polymarket Builder Program</h3>
-  <div class="card" style="border-color: var(--orange);">
-    <p><strong style="color: var(--orange);">How it works:</strong> Orders submitted to Polymarket's CLOB include HMAC-signed builder headers. All volume is credited to Capacitr's builder profile and tracked on the public leaderboard.</p>
-    <div style="margin-top: 12px;">
-      <span class="tag tag-orange">Gasless via Relayer</span>
-      <span class="tag tag-orange">Volume Attribution</span>
-      <span class="tag tag-orange">Privy + Safe Integration</span>
-    </div>
-    <div class="code-block" style="margin-top: 12px;">
-<span class="comment">// Order attribution via HMAC-signed headers</span>
-<span class="keyword">headers</span> = {
-  <span class="string">"POLY_BUILDER_ID"</span>: builder_api_key,
-  <span class="string">"POLY_BUILDER_SIGNATURE"</span>: hmac_sign(api_secret, passphrase)
-}
-
-<span class="comment">// Gasless: Safe wallet deployment + token approvals via Relayer</span>
-<span class="comment">// No gas fees for users — Polymarket covers on-chain costs</span>
-    </div>
-    <p style="margin-top: 12px;"><strong style="color: #002B1B;">SDKs:</strong> TypeScript CLOB Client, Builder Relayer Client, Builder Signing SDK — all official, open source.</p>
-  </div>
-
-  <h3>HyperLiquid Builder Codes</h3>
-  <div class="card" style="border-color: var(--orange);">
-    <p><strong style="color: var(--orange);">How it works:</strong> Users approve a maximum builder fee for Capacitr's address (one-time signature from main wallet). All subsequent orders include a builder parameter with the fee in tenths of basis points.</p>
-    <div class="code-block" style="margin-top: 12px;">
-<span class="comment">// One-time user approval (signed by main wallet, not agent)</span>
-ApproveBuilderFee { builder: <span class="string">"0xCapacitr..."</span>, maxFee: <span class="number">10</span> }
-<span class="comment">// maxFee: 10 = 1 basis point (0.01%)</span>
-
-<span class="comment">// Every order includes builder attribution</span>
-order.builder = { <span class="string">"b"</span>: <span class="string">"0xCapacitr..."</span>, <span class="string">"f"</span>: <span class="number">10</span> }
-
-<span class="comment">// Requirements:</span>
-<span class="comment">// - Builder must hold ≥100 USDC in perps account</span>
-<span class="comment">// - Max fee: 0.1% on perps, 1% on spot</span>
-<span class="comment">// - User can have max 10 active builder approvals</span>
-<span class="comment">// - Fees claimed via standard referral reward process</span>
-    </div>
-  </div>
-
-  <h3>Deribit Integration</h3>
-  <div class="card">
-    <p><strong style="color: var(--orange);">Approach:</strong> Deribit is a centralized exchange — no on-chain builder codes. Integration via sub-account API with managed execution. Revenue via spread markup on options order routing.</p>
-    <p style="margin-top: 8px;"><strong style="color: #002B1B;">API Surface:</strong> REST v2 + WebSocket for real-time. Python/Rust/Java SDKs available. Interactive API console for testing.</p>
-    <div style="margin-top: 8px;">
-      <span class="tag tag-tan">Sub-account Model</span>
-      <span class="tag tag-tan">Portfolio Margin</span>
-      <span class="tag tag-tan">FIX Protocol Available</span>
-    </div>
-  </div>
-</section>
-
-<!-- MONETIZATION -->
-<section class="section" id="monetization">
-  <div class="section-header">
-    <div class="section-number">19</div>
-    <h2>Monetization Strategy</h2>
-  </div>
-  <p>Revenue generated from every trade Capacitr influences users to make. The product is free — we monetize the execution layer.</p>
-
-  <h3>Revenue Model: Spread on Influenced Trades</h3>
-  <div class="card" style="border-color: var(--orange); padding: 32px;">
-    <p style="font-size: 16px; font-weight: 600; color: var(--orange); font-family: 'Space Grotesk', Arial, sans-serif;">Signal → Discovery → Conviction → Trade → Revenue</p>
-    <p style="margin-top: 12px;">Capacitr surfaces the market. The user builds conviction through our feed, research agent, and Quotient edge data. When they trade, we capture a small spread on execution.</p>
-  </div>
-
-  <h3>Per-Venue Revenue</h3>
-  <div class="table-wrap" style="margin-top: 16px;">
-    <table>
-      <thead><tr><th>Venue</th><th>Mechanism</th><th>Rate</th><th>How It Works</th></tr></thead>
-      <tbody>
-        <tr><td><strong>Polymarket</strong></td><td>Builder program volume</td><td>Grants + incentives</td><td>Attributed volume earns grants from Polymarket based on leaderboard rank. Gasless execution subsidized.</td></tr>
-        <tr><td><strong>HyperLiquid</strong></td><td>Builder code fees</td><td>Up to 1 bps (0.01%)</td><td>Per-order fee in tenths of basis points. On $1M daily routed volume = $100/day. Scales linearly.</td></tr>
-        <tr><td><strong>Deribit</strong></td><td>Spread markup</td><td>~5-15 bps</td><td>Options have wider spreads naturally. Capacitr marks up execution price slightly. Users still get better fills than manual.</td></tr>
-      </tbody>
-    </table>
-  </div>
-
-  <h3>Revenue Projections</h3>
-  <div style="margin: 16px 0;">
-    <div class="cost-bar">
-      <div class="cost-label">1K Users</div>
-      <div class="cost-track"><div class="cost-fill" style="width: 10%; background: var(--orange);"></div></div>
-      <div class="cost-value" style="color: var(--orange);">$3K/mo</div>
-    </div>
-    <div class="cost-bar">
-      <div class="cost-label">10K Users</div>
-      <div class="cost-track"><div class="cost-fill" style="width: 35%; background: var(--orange);"></div></div>
-      <div class="cost-value" style="color: var(--orange);">$30K/mo</div>
-    </div>
-    <div class="cost-bar">
-      <div class="cost-label">100K Users</div>
-      <div class="cost-track"><div class="cost-fill" style="width: 100%; background: var(--orange);"></div></div>
-      <div class="cost-value" style="color: var(--orange);">$250K/mo</div>
-    </div>
-  </div>
-  <div class="card" style="margin-top: 12px;">
-    <p><strong style="color: var(--orange);">Key Insight:</strong> Unlike SaaS subscription models, revenue scales with user engagement and trade size, not just headcount. A single whale routing $100K/day through Capacitr generates more than 1,000 casual users. The Quotient edge data creates urgency — "This market is 32% mispriced, act now" — which drives conversion from browse to trade.</p>
-  </div>
-</section>
-
   <!-- PHASES -->
   <section class="section" id="phases">
     <div class="section-header">
-      <div class="section-number">20</div>
+      <div class="section-number">15</div>
       <h2>Implementation Phases</h2>
     </div>
 
@@ -2339,7 +2103,7 @@ order.builder = { <span class="string">"b"</span>: <span class="string">"0xCapac
   <!-- COSTS -->
   <section class="section" id="costs">
     <div class="section-header">
-      <div class="section-number">21</div>
+      <div class="section-number">16</div>
       <h2>Cost Projections</h2>
     </div>
 
@@ -2410,7 +2174,7 @@ order.builder = { <span class="string">"b"</span>: <span class="string">"0xCapac
   <!-- TRADEOFFS -->
   <section class="section" id="tradeoffs">
     <div class="section-header">
-      <div class="section-number">22</div>
+      <div class="section-number">17</div>
       <h2>Key Tradeoffs</h2>
     </div>
 
@@ -2439,7 +2203,7 @@ order.builder = { <span class="string">"b"</span>: <span class="string">"0xCapac
   <!-- EXAMPLE -->
   <section class="section" id="example">
     <div class="section-header">
-      <div class="section-number">23</div>
+      <div class="section-number">18</div>
       <h2>End-to-End Example</h2>
     </div>
 
@@ -2501,7 +2265,7 @@ order.builder = { <span class="string">"b"</span>: <span class="string">"0xCapac
   <!-- FUTURE -->
   <section class="section" id="future" style="margin-bottom: 0;">
     <div class="section-header">
-      <div class="section-number">24</div>
+      <div class="section-number">19</div>
       <h2>Future Enhancements</h2>
     </div>
 
@@ -2509,8 +2273,7 @@ order.builder = { <span class="string">"b"</span>: <span class="string">"0xCapac
       <div class="card">
         <div style="font-size: 22px; margin-bottom: 8px;">💰</div>
         <div class="card-title">One-Tap Trading</div>
-        <p>Stripe onramp → Privy wallet → one-tap execution across Polymarket, HyperLiquid, and Deribit. Builder attribution on every trade.</p>
-        <div style="margin-top: 8px;"><span class="tag tag-orange">In Development</span></div>
+        <p>Trade matched markets via Privy embedded wallet</p>
       </div>
       <div class="card">
         <div style="font-size: 22px; margin-bottom: 8px;">👥</div>
@@ -2525,8 +2288,7 @@ order.builder = { <span class="string">"b"</span>: <span class="string">"0xCapac
       <div class="card">
         <div style="font-size: 22px; margin-bottom: 8px;">🤖</div>
         <div class="card-title">AI Research Agent</div>
-        <p>Conversational research agent that triggers feed refreshes based on topics discussed. Built with Vercel AI SDK + OpenRouter.</p>
-        <div style="margin-top: 8px;"><span class="tag tag-orange">Live</span></div>
+        <p>Deep-dive any topic with citations</p>
       </div>
       <div class="card">
         <div style="font-size: 22px; margin-bottom: 8px;">📊</div>
